@@ -15,280 +15,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,400&family=Space+Mono:wght@400;700&family=Permanent+Marker&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Share+Tech+Mono&family=Caveat:wght@400;700&family=Work+Sans:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../css/styles.css">
-<style>
-:root {
-  --nb:    #D9D3BA;
-  --np:    #F2EDD8;
-  --olive: #6B6E4E;
-  --shelt: #2A2920;
-  --ink:   #1C1C18;
-  --blood: #8B2012;
-  --bl2:   #C03020;
-  --haz:   #C8820A;
-  --pm:  'Permanent Marker', cursive;
-  --cp:  'Courier Prime', monospace;
-  --stm: 'Share Tech Mono', monospace;
-  --cav: 'Caveat', cursive;
-  --ws:  'Work Sans', sans-serif;
-}
-
-.dd { background: var(--nb); color: var(--ink); font-family: var(--cp); }
-
-/* header */
-.dd-hdr { background: var(--shelt); border-bottom: 3px solid var(--blood); }
-.dd-hdr .brand-name, .dd-hdr .nav-links a, .dd-hdr .mobile-menu a { color: var(--np); }
-.dd-hdr .brand-year { color: var(--olive); }
-.dd-hdr .nav-links a.is-active { border-color: var(--blood); color: var(--bl2); }
-.dd-hdr .nav-links a:hover { color: var(--bl2); border-color: var(--bl2); }
-.dd-hdr .menu-toggle span { background: var(--np); }
-.dd-hdr .mobile-menu { background: var(--shelt); border-top-color: rgba(139,32,18,.4); }
-.dd-hdr .mobile-menu a { color: var(--np); }
-
-/* footer */
-.dd-ftr { background: var(--shelt); border-top: 3px solid var(--blood); }
-.dd-ftr .brand-name { color: var(--np); }
-.dd-ftr .brand-year { color: var(--olive); }
-.dd-ftr .footer-links a { color: var(--nb); }
-.dd-ftr .footer-links a:hover { color: var(--bl2); border-color: var(--bl2); }
-.dd-ftr .footer-meta { color: var(--olive); }
-
-/* back */
-.dd-back {
-  font-family: var(--stm); font-size: 12px; letter-spacing: .16em; text-transform: uppercase;
-  color: var(--olive); display: inline-flex; align-items: center; gap: 8px;
-  text-decoration: none; border-bottom: 1px solid transparent; padding-bottom: 2px;
-  transition: color .2s, border-color .2s; margin-bottom: 40px;
-}
-.dd-back:hover { color: var(--blood); border-color: var(--blood); }
-
-/* hero — Shelter bg, overflow hidden so corner splatter clips cleanly */
-.dd-hero {
-  background: var(--shelt);
-  padding: 60px 0 72px;
-  position: relative;
-  overflow: hidden;
-}
-.dd-hero-inner { position: relative; z-index: 1; }
-
-.dd-kicker { font-family: var(--stm); font-size: 11px; letter-spacing: .18em; text-transform: uppercase; color: var(--bl2); margin-bottom: 14px; }
-.dd-subtitle { font-family: var(--cp); font-weight: 700; font-size: clamp(14px,1.6vw,18px); text-transform: uppercase; letter-spacing: .05em; color: var(--nb); margin: 4px 0 36px; }
-
-.dd-hero-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 48px; align-items: start; }
-.dd-hero-hed { font-family: var(--pm); font-size: clamp(30px,4.2vw,48px); line-height: 1.08; color: var(--np); margin-bottom: 22px; }
-.dd-hero-body { font-family: var(--ws); font-size: 15.5px; line-height: 1.75; color: var(--nb); margin-bottom: 16px; }
-
-.dd-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
-.dd-tag { font-family: var(--stm); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--nb); border: 1px solid var(--olive); padding: 6px 12px; }
-.dd-tag--blood { color: var(--bl2); border-color: var(--blood); }
-
-.dd-stats { display: flex; flex-direction: column; gap: 1px; background: rgba(242,237,216,.08); }
-.dd-stat { background: var(--ink); padding: 14px 18px; display: flex; justify-content: space-between; align-items: center; }
-.dd-stat-label { font-family: var(--stm); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--olive); }
-.dd-stat-value { font-family: var(--cp); font-weight: 700; font-size: 14px; text-transform: uppercase; color: var(--np); }
-
-
-/* accordion */
-.dd-accordion { border-top: 2px solid rgba(28,28,24,.15); margin-top: 56px; }
-.dd-item { border-bottom: 1px solid rgba(28,28,24,.12); }
-.dd-trigger {
-  width:100%; display:flex; align-items:center; gap:24px; padding:26px 0;
-  background:none; border:none; cursor:pointer; text-align:left; color:var(--ink);
-  transition: padding-left .2s;
-}
-.dd-trigger:hover { padding-left: 8px; }
-.dd-tnum { font-family:var(--stm); font-size:11px; letter-spacing:.1em; color:var(--blood); width:28px; flex-shrink:0; }
-.dd-ttitle { font-family:var(--cp); font-weight:700; font-size:clamp(18px,2.4vw,26px); text-transform:uppercase; letter-spacing:.06em; flex:1; transition:color .2s; }
-.dd-trigger:hover .dd-ttitle { color:var(--blood); }
-.dd-ticon { font-family:var(--stm); font-size:18px; color:var(--olive); width:18px; text-align:center; transition:transform .25s; flex-shrink:0; }
-.dd-item.is-open .dd-ticon { transform: rotate(45deg); }
-.accordion-panel { max-height:0; overflow:hidden; transition:max-height .35s ease; }
-.dd-panel { padding: 4px 0 44px 52px; display:flex; flex-direction:column; gap:20px; }
-
-/* panel components */
-.dd-p { font-family:var(--ws); font-size:16px; line-height:1.78; color:#3A3830; }
-
-.dd-box {
-  background:var(--shelt); border-left:4px solid var(--blood); padding:20px 22px;
-  color:var(--np); font-family:var(--cp); font-size:15px; line-height:1.7;
-}
-.dd-box-label { font-family:var(--stm); font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--bl2); margin-bottom:8px; }
-
-.dd-note { font-family:var(--cav); font-size:20px; color:var(--olive); line-height:1.5; padding:12px 0; border-bottom:1px solid rgba(107,110,78,.3); }
-
-.dd-lockup { background:var(--ink); padding:32px 28px; }
-.dd-lockup-word { font-family:var(--pm); font-size:clamp(40px,7vw,72px); color:var(--np); line-height:1; }
-
-.dd-specimen { background:var(--shelt); overflow:hidden; }
-.dd-spec-row { display:grid; grid-template-columns:160px 1fr; gap:20px; padding:18px 22px; border-bottom:1px solid rgba(242,237,216,.06); align-items:center; }
-.dd-spec-row:last-child { border-bottom:none; }
-.dd-spec-label { font-family:var(--stm); font-size:9px; letter-spacing:.16em; text-transform:uppercase; color:var(--olive); line-height:1.5; }
-.spec-pm  { font-family:var(--pm);  font-size:34px; color:var(--np); line-height:1; }
-.spec-cp  { font-family:var(--cp);  font-size:16px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--np); }
-.spec-stm { font-family:var(--stm); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--np); }
-.spec-cav { font-family:var(--cav); font-size:20px; color:var(--nb); }
-.spec-ws  { font-family:var(--ws);  font-size:15px; line-height:1.7; color:var(--nb); }
-
-.dd-swatches { display:grid; grid-template-columns:repeat(auto-fill,minmax(108px,1fr)); gap:10px; }
-.dd-sw { display:flex; flex-direction:column; gap:6px; }
-.dd-sw-block { height:58px; border:1px solid rgba(28,28,24,.15); }
-.dd-sw-name { font-family:var(--stm); font-size:9px; letter-spacing:.14em; text-transform:uppercase; color:var(--olive); }
-.dd-sw-hex  { font-family:var(--stm); font-size:11px; color:var(--ink); }
-
-.dd-voice { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:rgba(28,28,24,.1); }
-.dd-vcard { background:var(--shelt); padding:18px 20px; display:flex; flex-direction:column; gap:6px; }
-.dd-vname { font-family:var(--stm); font-size:10px; letter-spacing:.18em; text-transform:uppercase; color:var(--bl2); }
-.dd-vbody { font-family:var(--ws); font-size:13px; line-height:1.65; color:var(--nb); }
-.dd-vquote { font-family:var(--cav); font-size:15px; color:var(--olive); font-style:italic; margin-top:4px; }
-
-@media (max-width: 760px) {
-  .dd-hero-grid { grid-template-columns:1fr; gap:28px; }
-  .dd-panel { padding-left:0; }
-  .dd-voice { grid-template-columns:1fr; }
-  .dd-spec-row { grid-template-columns:1fr; gap:6px; }
-}
-
-  /* ── ASSET PLACEHOLDER ── */
-  .dd-asset-placeholder {
-    background: var(--shelt);
-    border: 2px dashed rgba(242,237,216,.15);
-    padding: 48px 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 120px;
-  }
-  .dd-asset-label {
-    font-family: var(--stm);
-    font-size: 11px;
-    letter-spacing: .16em;
-    text-transform: uppercase;
-    color: var(--olive);
-  }
-
-  /* ── SECTION NAV ── */
-  .dd-secnav {
-    position: sticky; top: 0; z-index: 20;
-    background: var(--nb);
-    border-bottom: 2px solid rgba(28,28,24,.15);
-    display: flex; gap: 0; overflow-x: auto;
-  }
-  .dd-secnav a {
-    font-family: var(--stm); font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
-    color: var(--ink); text-decoration: none; white-space: nowrap;
-    padding: 16px 22px; border-bottom: 3px solid transparent; transition: color .2s, border-color .2s;
-  }
-  .dd-secnav a span { color: var(--olive); margin-right: 6px; }
-  .dd-secnav a:hover, .dd-secnav a.is-current { color: var(--blood); border-color: var(--blood); }
-
-  /* ── BIG SECTION HEADER ── */
-  .dd-section { padding: 72px 0; border-bottom: 2px solid rgba(28,28,24,.1); }
-  .dd-section:last-child { border-bottom: none; }
-  .dd-section-kicker { font-family: var(--stm); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--blood); margin-bottom: 10px; }
-  .dd-section-hed { font-family: var(--pm); font-size: clamp(34px,5vw,56px); line-height: 1.05; margin-bottom: 28px; color: var(--ink); }
-  .dd-section-intro { font-family: var(--ws); font-size: 17px; line-height: 1.8; color: #3A3830; max-width: 760px; margin-bottom: 20px; }
-
-  /* ── BRAND SECTION ── */
-  .dd-brand-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 56px; margin-top: 44px; align-items: start; }
-  .dd-lockup-img { width: 100%; height: auto; display: block; }
-  .dd-mark-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 18px; }
-  .dd-mark-card { background: var(--nb); padding: 18px; display: flex; flex-direction: column; align-items: center; gap: 10px; }
-  .dd-mark-card img { width: 100%; max-width: 84px; height: auto; }
-  .dd-mark-card span { font-family: var(--stm); font-size: 9px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink); text-align: center; }
-
-  /* ── MECHANICS SECTION ── */
-  .dd-mech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 36px; }
-  .dd-flow { display: flex; flex-direction: column; gap: 0; }
-  .dd-flow-step { display: flex; gap: 18px; padding: 16px 0; border-bottom: 1px solid rgba(28,28,24,.12); }
-  .dd-flow-step:last-child { border-bottom: none; }
-  .dd-flow-num { font-family: var(--pm); font-size: 26px; color: var(--blood); width: 44px; flex-shrink: 0; }
-  .dd-flow-body h4 { font-family: var(--cp); font-weight: 700; font-size: 15px; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
-  .dd-flow-body p { font-family: var(--ws); font-size: 14.5px; line-height: 1.65; color: #3A3830; margin: 0; }
-
-  /* ── SETTINGS SECTION ── */
-  .dd-settings-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 2px; background: rgba(28,28,24,.12); margin-top: 40px; }
-  .dd-setting-card { background: var(--shelt); padding: 30px 28px; display: flex; flex-direction: column; gap: 12px; }
-  .dd-setting-code { font-family: var(--stm); font-size: 10px; letter-spacing: .16em; color: var(--bl2); text-transform: uppercase; }
-  .dd-setting-name { font-family: var(--pm); font-size: clamp(28px,3vw,38px); color: var(--np); line-height: 1; }
-  .dd-setting-body { font-family: var(--ws); font-size: 14.5px; line-height: 1.7; color: var(--nb); }
-  .dd-setting-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
-  .dd-setting-tags span { font-family: var(--stm); font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--olive); border: 1px solid rgba(107,110,78,.5); padding: 4px 9px; }
-
-  /* ── PLAYTEST / QUIZ SECTION ── */
-  .dd-quiz { background: var(--shelt); padding: 40px clamp(20px,4vw,48px); margin-top: 36px; }
-  .dd-quiz-step { display: none; }
-  .dd-quiz-step.is-active { display: block; }
-  .dd-quiz-q { font-family: var(--cp); font-weight: 700; font-size: clamp(18px,2.2vw,24px); text-transform: uppercase; letter-spacing: .03em; color: var(--np); margin-bottom: 22px; }
-  .dd-quiz-progress { font-family: var(--stm); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--olive); margin-bottom: 10px; }
-  .dd-quiz-options { display: grid; grid-template-columns: repeat(auto-fit,minmax(200px,1fr)); gap: 14px; }
-  .dd-quiz-opt {
-    background: var(--ink); border: 2px solid transparent; padding: 18px 20px; cursor: pointer; text-align: left;
-    color: var(--nb); font-family: var(--ws); transition: border-color .2s, background .2s;
-  }
-  .dd-quiz-opt:hover { border-color: var(--olive); }
-  .dd-quiz-opt.is-selected { border-color: var(--blood); background: #2c1411; }
-  .dd-quiz-opt-name { font-family: var(--cp); font-weight: 700; font-size: 15px; text-transform: uppercase; color: var(--np); display: block; margin-bottom: 4px; }
-  .dd-quiz-opt-desc { font-size: 12.5px; line-height: 1.5; color: var(--nb); }
-  .dd-quiz-nav { display: flex; justify-content: space-between; margin-top: 28px; }
-  .dd-quiz-btn {
-    font-family: var(--stm); font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
-    background: none; border: 1px solid var(--olive); color: var(--nb); padding: 12px 22px; cursor: pointer;
-    transition: border-color .2s, color .2s;
-  }
-  .dd-quiz-btn:hover:not(:disabled) { border-color: var(--blood); color: var(--bl2); }
-  .dd-quiz-btn:disabled { opacity: .35; cursor: not-allowed; }
-  .dd-quiz-btn--primary { border-color: var(--blood); color: var(--bl2); }
-
-  .dd-result { display: none; }
-  .dd-result.is-active { display: block; }
-  .dd-result-card { background: var(--ink); border-left: 4px solid var(--blood); padding: 30px clamp(20px,4vw,40px); }
-  .dd-result-kicker { font-family: var(--stm); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--bl2); margin-bottom: 6px; }
-  .dd-result-name { font-family: var(--pm); font-size: clamp(34px,5vw,52px); color: var(--np); line-height: 1; margin-bottom: 18px; }
-  .dd-result-line { font-family: var(--cp); font-size: 14px; color: var(--nb); margin-bottom: 6px; }
-  .dd-result-line b { color: var(--np); text-transform: uppercase; }
-  .dd-result-stats { display: grid; grid-template-columns: repeat(6,1fr); gap: 10px; margin: 24px 0; }
-  .dd-result-stat { background: var(--shelt); padding: 14px 10px; text-align: center; }
-  .dd-result-stat-label { font-family: var(--stm); font-size: 9px; letter-spacing: .12em; color: var(--olive); text-transform: uppercase; }
-  .dd-result-stat-val { font-family: var(--stm); font-size: 22px; color: var(--np); margin-top: 4px; }
-  .dd-result-quote { font-family: var(--cav); font-size: 18px; color: var(--olive); margin-top: 10px; }
-
-  /* ── scenario picker (step 1) ── */
-  .dd-quiz-options--scenario { grid-template-columns: repeat(auto-fit,minmax(220px,1fr)); }
-  .dd-scenario-opt .dd-quiz-opt-name { font-family: var(--pm); font-size: 22px; text-transform: none; letter-spacing: 0; }
-  .dd-scenario-opt .dd-quiz-opt-tag { font-family: var(--cav); font-size: 14px; color: var(--bl2); display: block; margin-bottom: 6px; }
-
-  /* ── multi-select extras (step 4) ── */
-  .dd-quiz-opt.is-disabled { opacity: .3; cursor: not-allowed; pointer-events: none; }
-  .dd-quiz-opt-fx { display: block; margin-top: 8px; font-family: var(--stm); font-size: 10.5px; letter-spacing: .04em; color: var(--bl2); }
-
-  /* ── fit tags on archetype cards ── */
-  .dd-quiz-opt-fit { display: block; margin-top: 6px; font-family: var(--stm); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--olive); }
-
-  /* ── character sheet result ── */
-  .dd-sheet-block { margin-top: 26px; }
-  .dd-sheet-label { font-family: var(--stm); font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--olive); margin-bottom: 12px; }
-  .dd-trait-list { display: flex; flex-direction: column; gap: 1px; background: rgba(242,237,216,.08); }
-  .dd-trait-row { background: var(--shelt); padding: 12px 16px; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-  .dd-trait-badge { font-family: var(--stm); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; padding: 3px 7px; flex-shrink: 0; }
-  .dd-trait-badge--pos { color: #6B6E4E; border: 1px solid #6B6E4E; }
-  .dd-trait-badge--neg { color: var(--bl2); border: 1px solid var(--bl2); }
-  .dd-trait-name { font-family: var(--cp); font-weight: 700; font-size: 13.5px; text-transform: uppercase; color: var(--np); }
-  .dd-trait-src { font-family: var(--stm); font-size: 9px; color: var(--olive); text-transform: uppercase; }
-  .dd-trait-flavor { font-family: var(--cav); font-size: 14.5px; color: var(--nb); width: 100%; margin-top: 2px; }
-  .dd-trait-fx { font-family: var(--stm); font-size: 10.5px; letter-spacing: .02em; color: var(--olive); width: 100%; }
-  .dd-chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
-  .dd-chip { font-family: var(--stm); font-size: 11px; letter-spacing: .04em; text-transform: uppercase; color: var(--np); background: var(--ink); border: 1px solid var(--olive); padding: 6px 12px; }
-  .dd-chip--empty { color: var(--olive); border-style: dashed; }
-
-
-  @media (max-width: 760px) {
-    .dd-brand-grid { grid-template-columns: 1fr; }
-    .dd-mech-grid { grid-template-columns: 1fr; }
-    .dd-settings-grid { grid-template-columns: 1fr; }
-    .dd-result-stats { grid-template-columns: repeat(3,1fr); }
-    .dd-mark-row { grid-template-columns: repeat(3,1fr); }
-  }
-
-</style>
+<link rel="stylesheet" href="../../css/doomsday.css">
 </head>
 <body data-section="work">
 
@@ -355,10 +82,15 @@
   </nav>
 
   <!-- ============ 01 BRAND ============ -->
-  <section class="dd-section" id="brand">
-    <div class="wrap">
-      <div class="dd-section-kicker">01 // Brand</div>
-      <div class="dd-section-hed">A VHS-era poster<br>that survived the apocalypse.</div>
+  <details class="dd-section" id="brand" open>
+    <summary class="wrap dd-section-summary">
+      <div class="dd-section-summary-text">
+        <div class="dd-section-kicker">01 // Brand</div>
+        <div class="dd-section-hed">A VHS-era poster<br>that survived the apocalypse.</div>
+      </div>
+      <span class="dd-section-icon" aria-hidden="true">+</span>
+    </summary>
+    <div class="wrap dd-section-body">
       <p class="dd-section-intro">The brand has to feel like that poster on your wall: hand-lettered, blood-flecked, photocopied one too many times. Warm with recognition, then the floor drops out. Everything below — the marker wordmark, the Impact symbol, the weathered palette — exists to make a zombie one-shot and a killer-tornado campaign read as the same product line.</p>
       <p class="dd-section-intro">I built this system the way I'd build it for a client: a wordmark that can't be faked with a font, a single approved symbol for when the wordmark won't fit, a seven-colour palette that never goes glossy, and a five-typeface voice system that maps directly to how the game talks to its players.</p>
 
@@ -396,13 +128,18 @@
         </div>
       </div>
     </div>
-  </section>
+  </details>
 
   <!-- ============ 02 MECHANICS ============ -->
-  <section class="dd-section" id="mechanics">
-    <div class="wrap">
-      <div class="dd-section-kicker">02 // Mechanics</div>
-      <div class="dd-section-hed">Built to finish<br>in one sitting.</div>
+  <details class="dd-section" id="mechanics" open>
+    <summary class="wrap dd-section-summary">
+      <div class="dd-section-summary-text">
+        <div class="dd-section-kicker">02 // Mechanics</div>
+        <div class="dd-section-hed">Built to finish<br>in one sitting.</div>
+      </div>
+      <span class="dd-section-icon" aria-hidden="true">+</span>
+    </summary>
+    <div class="wrap dd-section-body">
       <p class="dd-section-intro">Doomsday is designed against a single constraint: a complete, satisfying apocalypse in one session, no prep required between sessions because there are no further sessions. That constraint shapes every rule. Character creation takes minutes, not hours — players pick an Archetype (who they are at their core) and a Career (what they did before the world ended), which together hand them a small stack of Traits: stats, skill proficiencies, and signature actions. There's no levelling, no inventory management, no class tree. You build a person, not a build.</p>
       <p class="dd-section-intro">Tension comes from scarcity, not from a long campaign's worth of accumulated power. Every Scenario is tuned for a single dramatic arc — inciting incident, rising complication, the night's climax — and every Apocalypse (the zombies, the asteroid, the storm) is just a reskin of that same arc with different stakes and different rules text. That's what makes the format repeatable: new settings without a new engine.</p>
 
@@ -436,13 +173,18 @@
         </div>
       </div>
     </div>
-  </section>
+  </details>
 
   <!-- ============ 03 SETTINGS ============ -->
-  <section class="dd-section" id="settings">
-    <div class="wrap">
-      <div class="dd-section-kicker">03 // Settings</div>
-      <div class="dd-section-hed">One engine.<br>Five ways to end the world.</div>
+  <details class="dd-section" id="settings" open>
+    <summary class="wrap dd-section-summary">
+      <div class="dd-section-summary-text">
+        <div class="dd-section-kicker">03 // Settings</div>
+        <div class="dd-section-hed">One engine.<br>Five ways to end the world.</div>
+      </div>
+      <span class="dd-section-icon" aria-hidden="true">+</span>
+    </summary>
+    <div class="wrap dd-section-body">
       <p class="dd-section-intro">Every Apocalypse is a complete, self-contained product within the same rules engine and the same brand system — meaning new settings ship faster than a traditional TTRPG line, without diluting what the game is. These are the five currently in active development, each one a nod to the disaster-movie touchstones that inspired it.</p>
 
       <div class="dd-settings-grid">
@@ -478,13 +220,18 @@
         </div>
       </div>
     </div>
-  </section>
+  </details>
 
   <!-- ============ 04 PLAYTEST ============ -->
-  <section class="dd-section" id="playtest">
-    <div class="wrap">
-      <div class="dd-section-kicker">04 // Playtest</div>
-      <div class="dd-section-hed">Build a survivor.</div>
+  <details class="dd-section" id="playtest" open>
+    <summary class="wrap dd-section-summary">
+      <div class="dd-section-summary-text">
+        <div class="dd-section-kicker">04 // Playtest</div>
+        <div class="dd-section-hed">Build a survivor.</div>
+      </div>
+      <span class="dd-section-icon" aria-hidden="true">+</span>
+    </summary>
+    <div class="wrap dd-section-body">
       <p class="dd-section-intro">The actual character-creation flow, condensed: pick your Apocalypse, your Archetype, your Career, and two extra Traits of your choosing. Every pick carries real traits — stats up, stats down, sometimes a skill, sometimes an item. Nobody is good at everything. By the end you've got a finished character sheet, warts and all.</p>
 
       <div class="dd-quiz" id="ddQuiz">
@@ -553,7 +300,7 @@
       </div>
 
     </div>
-  </section>
+  </details>
 
 </div>
 
@@ -572,385 +319,6 @@
 </footer>
 
 <script src="../../js/main.js" defer></script>
-<script>
-(function(){
-  // ── scroll-spy for section nav ──
-  var navLinks = document.querySelectorAll('[data-secnav]');
-  var sections = ['brand','mechanics','settings','playtest'].map(function(id){ return document.getElementById(id); });
-  function updateNav(){
-    var pos = window.scrollY + 120;
-    var current = sections[0];
-    sections.forEach(function(s){ if (s && s.offsetTop <= pos) current = s; });
-    navLinks.forEach(function(a){
-      a.classList.toggle('is-current', current && a.getAttribute('href') === '#' + current.id);
-    });
-  }
-  document.addEventListener('scroll', updateNav, { passive: true });
-  updateNav();
-
-  // ── playtest quiz ──
-  // ── shared trait library ──
-  // deltas: stat deltas applied on top of a baseline of 3 per stat (clamped 1-9)
-  var TRAITS = {
-    // Archetype traits — Jock
-    star_athlete:       { name:"Star Athlete", type:"pos", skill:"Athletics", flavor:"Captain of three varsity teams, and never lets anyone forget it." },
-    team_captain:       { name:"Team Captain", type:"pos", skill:"Leadership", flavor:"Used to rallying a locker room before a big game. Turns out that translates." },
-    head_trauma:        { name:"One Too Many Concussions", type:"neg", deltas:{Intellect:-2}, flavor:"Took one too many hits to the head and never quite got all the way back up." },
-    // Nerd
-    photographic_memory:{ name:"Photographic Memory", type:"pos", deltas:{Intellect:2}, flavor:"Remembers every page of every book they've ever skimmed." },
-    gadget_geek:        { name:"Gadget Geek", type:"pos", deltas:{Dexterity:1}, skill:"Mechanics", item:"Multitool", flavor:"Carries a backpack full of half-finished electronics projects — one of which might actually help." },
-    social_anxiety:      { name:"Social Anxiety", type:"neg", deltas:{Charisma:-2,Nerve:-1}, flavor:"Would rather face the apocalypse than make eye contact with a stranger." },
-    // Ladies' Man
-    smooth_talker:       { name:"Smooth Talker", type:"pos", skill:"Persuasion", flavor:"Has talked their way out of more trouble than anyone should be proud of." },
-    black_book:          { name:"Black Book", type:"pos", item:"Black Book of Contacts", flavor:"Knows someone in every town who owes them a favor — or used to date them." },
-    commitment_issues:   { name:"Commitment Issues", type:"neg", deltas:{Nerve:-2}, skill:"Stealth", flavor:"Bails the second things start to feel real — but is very, very good at it." },
-    // Meathead
-    raw_power:           { name:"Raw Power", type:"pos", deltas:{Vigor:2}, flavor:"Bench presses things that should probably require a forklift." },
-    doesnt_feel_pain:    { name:"Doesn't Feel Pain", type:"pos", deltas:{Vigor:1}, skill:"Brawling", flavor:"Numb to pain in a way that's either a gift or a serious medical problem." },
-    fourth_grade_reading:{ name:"Reads at a 4th Grade Level", type:"neg", deltas:{Intellect:-2}, flavor:"Sounds out the big words. Still hasn't finished the warning label." },
-    // Himbo/Bimbo
-    disarmingly_charming:{ name:"Disarmingly Charming", type:"pos", skill:"Persuasion", flavor:"Too nice and too pretty for anyone to stay mad at." },
-    surprisingly_strong: { name:"Surprisingly Strong", type:"pos", item:"Improvised Pipe Weapon", flavor:"Nobody expects the upper-body strength until it's much too late." },
-    book_smart_no:       { name:"Book Smart? No.", type:"neg", deltas:{Intellect:-2}, flavor:"Genuinely, deeply unaware of how anything works. It's kind of endearing." },
-    // Final Girl/Guy
-    survivors_instinct:  { name:"Survivor's Instinct", type:"pos", skill:"Stealth", flavor:"Knows exactly when to go quiet and exactly where the exits are." },
-    plan_b:              { name:"Always Has a Plan B", type:"pos", item:"Emergency Go-Bag", flavor:"Always has a backup plan, and the backup plan has a backpack." },
-    trust_issues:        { name:"Trust Issues", type:"neg", deltas:{Charisma:-2}, flavor:"Has been the only survivor before. Doesn't love the group's odds." },
-    // Conspiracy Theorist
-    connected_dots:      { name:"Connected the Dots", type:"pos", skill:"Research", flavor:"Has a corkboard at home and red string for exactly this occasion." },
-    doomsday_bunker:     { name:"Doomsday Bunker", type:"pos", item:"Gas Mask", flavor:"Built a bunker in the backyard. The neighbors thought it was weird. It was not weird." },
-    nobody_believes_me:  { name:"Nobody Believes Me", type:"neg", deltas:{Charisma:-2}, skill:"Research", flavor:"Has been right before. Has also been completely insufferable about it." },
-    // Doomsday Prepper
-    stockpiled_supplies: { name:"Stockpiled Supplies", type:"pos", item:"Bug-Out Bag", flavor:"Has enough canned goods in the basement to outlast a small siege." },
-    tactical_training:   { name:"Tactical Training", type:"pos", skill:"Firearms", flavor:"Spent every weekend at the range preparing for exactly this." },
-    paranoid_loner:      { name:"Paranoid Loner", type:"neg", deltas:{Charisma:-2}, item:"Padlock", flavor:"Trusts the group about as far as they can throw the group. Locks every door behind them." },
-    // Cryptid Hunter
-    tracker:             { name:"Tracker", type:"pos", skill:"Tracking", flavor:"Can follow a trail through brush nobody else even noticed was disturbed." },
-    monster_lore:        { name:"Monster Lore", type:"pos", skill:"Lore", flavor:"Has read every grainy forum post and blurry photo thread there is." },
-    obsessive:           { name:"Obsessive", type:"neg", deltas:{Charisma:-2}, item:"Notebook of Theories", flavor:"Won't shut up about it, but the notebook is, annoyingly, kind of useful." },
-    // Sea Dog
-    old_salt:            { name:"Old Salt", type:"pos", deltas:{Dexterity:2}, flavor:"Has weathered worse storms than this in boats half this size." },
-    iron_stomach:        { name:"Iron Stomach", type:"pos", item:"Flask of Rum", flavor:"Keeps something strong on hand for emergencies. Most things qualify as emergencies." },
-    superstitious:       { name:"Superstitious", type:"neg", deltas:{Intellect:-2}, flavor:"Won't whistle on deck, won't say the Q-word, refuses to explain why." },
-    // Influencer
-    ring_light_ready:    { name:"Ring Light Ready", type:"pos", skill:"Persuasion", item:"Phone & Camera", flavor:"Filming this for the followers. The followers are not currently helpful." },
-    surprisingly_resourceful:{ name:"Surprisingly Resourceful", type:"pos", item:"Portable Charger", flavor:"Has MacGyver'd a ring light out of a flashlight before. This isn't that different." },
-    main_character_syndrome:{ name:"Main Character Syndrome", type:"neg", deltas:{Nerve:-2}, flavor:"Freezes the second there's no audience watching them be brave." },
-    // Washed-Up Action Star
-    old_stuntman_tricks: { name:"Old Stuntman Tricks", type:"pos", skill:"Brawling", flavor:"Did their own stunts. Once. In 1994. Still remembers how to fall." },
-    quotable_one_liners: { name:"Quotable One-Liners", type:"pos", item:"Worn VHS Tape", flavor:"Has a one-liner ready for literally any situation, appropriate or not." },
-    bad_knees:           { name:"Bad Knees", type:"neg", deltas:{Dexterity:-2}, item:"Cane", flavor:"The knees haven't been the same since the stunt double quit in '99." },
-
-    // Career traits — Cop
-    trained_marksman:   { name:"Trained Marksman", type:"pos", skill:"Firearms", item:"Sidearm", flavor:"Qualified at the range every year, whether they wanted to or not." },
-    authority_figure:   { name:"Authority Figure", type:"pos", skill:"Intimidation", flavor:"Used to people listening when they raise their voice." },
-    burnt_out:          { name:"Burnt Out", type:"neg", deltas:{Luck:-2}, flavor:"Has seen too much of this town's worst nights to feel lucky about anything." },
-    // Teacher
-    patient_educator:   { name:"Patient Educator", type:"pos", skill:"Leadership", flavor:"Has gotten thirty kids to sit still. This room is comparatively easy." },
-    crowd_control:      { name:"Crowd Control", type:"pos", item:"Whistle", flavor:"Knows exactly how to keep a room from spiraling into chaos." },
-    underpaid_exhausted:{ name:"Underpaid & Exhausted", type:"neg", deltas:{Vigor:-2}, flavor:"Has been running on grading-stack adrenaline and bad coffee for a decade." },
-    // Soldier
-    combat_trained:     { name:"Combat Trained", type:"pos", skill:"Firearms", item:"Rifle", flavor:"Did two tours. This isn't the first warzone, just a stranger one." },
-    battle_tested:      { name:"Battle-Tested Nerves", type:"pos", item:"Combat Knife", flavor:"Doesn't flinch at things that should make a person flinch." },
-    thousand_yard_stare:{ name:"Thousand-Yard Stare", type:"neg", deltas:{Charisma:-2}, item:"Spent Shell Casing", flavor:"Stopped making small talk somewhere around the second deployment." },
-    // Nurse/Doctor
-    trauma_medicine:    { name:"Trauma Medicine", type:"pos", skill:"First Aid", item:"Med Kit", flavor:"Has stitched up worse than this in a hospital hallway during a slow shift." },
-    steady_hands:       { name:"Steady Hands", type:"pos", item:"Suture Kit", flavor:"Hands don't shake even when everything else in the room is falling apart." },
-    compassion_fatigue: { name:"Compassion Fatigue", type:"neg", deltas:{Luck:-2}, flavor:"Has run out of bedside manner to spare for one more crisis." },
-    // Mechanic
-    jury_rig:           { name:"Jury-Rig Anything", type:"pos", skill:"Mechanics", item:"Toolkit", flavor:"Can keep something running well past the point it should have quit." },
-    grease_monkey:      { name:"Grease Monkey Grit", type:"pos", item:"Spare Parts", flavor:"Knows an engine's problems by sound before popping the hood." },
-    doesnt_play_well:   { name:"Doesn't Play Well With Others", type:"neg", deltas:{Charisma:-2}, flavor:"Prefers the company of a broken carburetor to most people." },
-    // Scientist
-    brilliant_mind:     { name:"Brilliant Mind", type:"pos", skill:"Research", flavor:"Has a working theory. Several, actually, and most of them are unsettling." },
-    lab_discipline:      { name:"Lab Discipline", type:"pos", skill:"Research", flavor:"Follows procedure even when procedure clearly wasn't built for this." },
-    socially_inept:      { name:"Socially Inept", type:"neg", deltas:{Charisma:-2}, flavor:"Explains things in a way that's accurate and somehow still confusing." },
-    // Bartender
-    reads_people:        { name:"Reads People", type:"pos", skill:"Persuasion", flavor:"Can read a room of strangers in about four seconds flat." },
-    knows_a_guy:         { name:"Knows a Guy", type:"pos", item:"Whiskey Flask", flavor:"Has a guy for everything. The guy usually delivers." },
-    functioning_alcoholic:{ name:"Functioning Alcoholic", type:"neg", deltas:{Vigor:-2}, flavor:"Has a drink in hand more often than is probably advisable right now." },
-    // Journalist
-    right_questions:     { name:"Asks the Right Questions", type:"pos", skill:"Research", flavor:"Knows exactly which question makes a source's face fall." },
-    talks_way_in:        { name:"Talks Their Way In", type:"pos", item:"Press Badge", flavor:"Has talked their way past more roadblocks and guards than seems legal." },
-    reckless_pursuit:    { name:"Reckless Pursuit of the Truth", type:"neg", deltas:{Nerve:-2}, flavor:"Chases the story straight past the point where it's still a good idea." },
-    // Construction Worker
-    built_different:     { name:"Built Different", type:"pos", deltas:{Vigor:1}, item:"Crowbar", flavor:"Has been lifting things heavier than most people since before this started." },
-    building_codes:      { name:"Knows the Building Codes", type:"pos", item:"Blueprint Set", flavor:"Knows which walls are load-bearing and which doors were never up to code." },
-    bad_back:            { name:"Bad Back", type:"neg", deltas:{Dexterity:-2}, item:"Back Brace", flavor:"Twenty years on job sites left a permanent ache nobody warned them about." },
-    // Park Ranger
-    wilderness_survival: { name:"Wilderness Survival", type:"pos", skill:"Survival", flavor:"Has spent more nights outdoors than in an actual bed." },
-    trackers_eye:        { name:"Tracker's Eye", type:"pos", item:"Binoculars", flavor:"Notices broken branches and disturbed dirt that everyone else walks right past." },
-    gun_nut:             { name:"Gun Nut", type:"neg", deltas:{Charisma:-2}, skill:"Firearms", item:"Hunting Rifle", flavor:"Has opinions about ammunition nobody asked for, and a rifle to back them up." },
-
-    // Extra Traits (player picks exactly 2, not tied to Archetype or Career)
-    alcoholic:    { name:"Alcoholic", type:"extra", deltas:{Charisma:2,Dexterity:-2}, flavor:"Steadier nerves after a drink, shakier hands after three." },
-    promiscuous:  { name:"Promiscuous", type:"extra", deltas:{Charisma:2,Intellect:-2}, flavor:"Charming enough to get into trouble, not quite sharp enough to see it coming." },
-    klutz:        { name:"Klutz", type:"extra", deltas:{Dexterity:-2,Luck:1}, flavor:"Trips over flat ground but somehow always lands somewhere good." },
-    daredevil:    { name:"Daredevil", type:"extra", skill:"Climbing", flavor:"Has no sense of self-preservation, but climbs like it's absolutely nothing." },
-    silver_tongue:{ name:"Silver Tongue", type:"extra", skill:"Negotiation", flavor:"Has talked their way out of speeding tickets and worse. Karma's due any day now." },
-    bookworm:     { name:"Bookworm", type:"extra", skill:"Research", flavor:"Has read every survival manual ever published. Untested in the actual field." },
-    trust_fund_kid:{ name:"Trust Fund Kid", type:"extra", item:"Wad of Cash", flavor:"Never worked a day in their life. The cash still spends, though." },
-    pack_rat:     { name:"Pack Rat", type:"extra", item:"Bag of Random Useful Junk", flavor:"Never throws anything away. Today, finally, that pays off." },
-    keepsake:     { name:"Sentimental Keepsake", type:"extra", item:"Pocket Knife", flavor:"Carries a late relative's pocket knife everywhere. Hasn't needed it. Yet." },
-    hypochondriac:{ name:"Hypochondriac", type:"extra", deltas:{Nerve:-2}, skill:"First Aid", flavor:"Has researched every way this could go wrong, and picked up real medical know-how doing it." },
-    night_owl:    { name:"Night Owl", type:"extra", deltas:{Nerve:1}, skill:"Stealth", flavor:"Sharpest at 3am, and good at moving quietly while everyone else sleeps." },
-    insomniac:    { name:"Insomniac", type:"extra", deltas:{Vigor:-1}, item:"Thermos of Coffee", flavor:"Hasn't slept properly in weeks. Running entirely on caffeine and spite." }
-  };
-
-  var SCENARIOS = [
-    { id:"invasion", name:"Invasion", tag:"They're not from around here.", blurb:"Lights in the sky, government denials, and a backyard that isn't safe anymore.", quote:"\u201cThe lights weren't weather balloons.\u201d" },
-    { id:"marooned", name:"Marooned", tag:"No signal. No rescue. Just the island.", blurb:"The boat's gone, the radio's dead, and something's moving in the treeline.", quote:"\u201cNo signal. No rescue. Just us, and whatever's out there.\u201d" },
-    { id:"deadwalk", name:"Deadwalk", tag:"They used to be the neighbors.", blurb:"The dead won't stay down, and the living are running out of places to hide.", quote:"\u201cNone of us are trained for this. That's the game.\u201d" },
-    { id:"stomping", name:"Stomping Ground", tag:"Something the size of a building just woke up.", blurb:"A city-leveling monster, a skyline on fire, and a population running the wrong way.", quote:"\u201cRun. Don't look up. Run.\u201d" },
-    { id:"midnight", name:"Midnight", tag:"The clock just ran out.", blurb:"Sirens, a fifteen-minute warning, and a bunker door that may not open in time.", quote:"\u201cThe countdown is on the news. It's accurate.\u201d" }
-  ];
-
-  var ARCHETYPES = [
-    { id:"jock", name:"The Jock", blurb:"First through the door, last to think it through.", fits:["stomping","deadwalk"], traits:["star_athlete","team_captain","head_trauma"] },
-    { id:"nerd", name:"The Nerd", blurb:"Knows the science nobody else paid attention to.", fits:["invasion","midnight"], traits:["photographic_memory","gadget_geek","social_anxiety"] },
-    { id:"ladies_man", name:"The Ladies' Man", blurb:"Charms everyone, commits to no one.", fits:["marooned","deadwalk"], traits:["smooth_talker","black_book","commitment_issues"] },
-    { id:"meathead", name:"The Meathead", blurb:"Strong opinions about protein, no opinions about anything else.", fits:["deadwalk","stomping"], traits:["raw_power","doesnt_feel_pain","fourth_grade_reading"] },
-    { id:"himbo", name:"The Bimbo/Himbo", blurb:"Disarmingly kind, alarmingly under-informed.", fits:["marooned","invasion"], traits:["disarmingly_charming","surprisingly_strong","book_smart_no"] },
-    { id:"final_girl", name:"The Final Girl/Guy", blurb:"Has seen this movie before. Knows how it goes.", fits:["deadwalk","stomping"], traits:["survivors_instinct","plan_b","trust_issues"] },
-    { id:"conspiracy", name:"The Conspiracy Theorist", blurb:"Called it. Nobody listened. Called it anyway.", fits:["invasion","stomping"], traits:["connected_dots","doomsday_bunker","nobody_believes_me"] },
-    { id:"prepper", name:"The Doomsday Prepper", blurb:"Has a bug-out bag for every room in the house.", fits:["midnight","deadwalk"], traits:["stockpiled_supplies","tactical_training","paranoid_loner"] },
-    { id:"cryptid", name:"The Cryptid Hunter", blurb:"Has a folder. The folder is thick.", fits:["stomping","invasion"], traits:["tracker","monster_lore","obsessive"] },
-    { id:"sea_dog", name:"The Sea Dog", blurb:"Talks like the ocean owes them money.", fits:["marooned"], traits:["old_salt","iron_stomach","superstitious"] },
-    { id:"influencer", name:"The Influencer", blurb:"Filming this for content. Always filming.", fits:["invasion","stomping"], traits:["ring_light_ready","surprisingly_resourceful","main_character_syndrome"] },
-    { id:"action_star", name:"The Washed-Up Action Star", blurb:"Did their own stunts. Once. In 1994.", fits:["stomping","midnight"], traits:["old_stuntman_tricks","quotable_one_liners","bad_knees"] }
-  ];
-
-  var CAREERS = [
-    { id:"cop", name:"Cop", blurb:"Has seen worse. Hasn't seen this.", traits:["trained_marksman","authority_figure","burnt_out"] },
-    { id:"teacher", name:"Teacher", blurb:"Can get thirty kids to sit down. Can probably get this room to.", traits:["patient_educator","crowd_control","underpaid_exhausted"] },
-    { id:"soldier", name:"Soldier", blurb:"Trained for combat. Not for this particular combat.", traits:["combat_trained","battle_tested","thousand_yard_stare"] },
-    { id:"nurse", name:"Nurse/Doctor", blurb:"Triage under pressure, every single shift.", traits:["trauma_medicine","steady_hands","compassion_fatigue"] },
-    { id:"mechanic", name:"Mechanic", blurb:"Can fix or hot-wire almost anything with an engine.", traits:["jury_rig","grease_monkey","doesnt_play_well"] },
-    { id:"scientist", name:"Scientist", blurb:"Has a working theory. Several, actually.", traits:["brilliant_mind","lab_discipline","socially_inept"] },
-    { id:"bartender", name:"Bartender", blurb:"Has heard every secret this town has.", traits:["reads_people","knows_a_guy","functioning_alcoholic"] },
-    { id:"journalist", name:"Journalist", blurb:"Following the story straight into the danger.", traits:["right_questions","talks_way_in","reckless_pursuit"] },
-    { id:"construction", name:"Construction Worker", blurb:"Knows which walls are load-bearing. Useful, lately.", traits:["built_different","building_codes","bad_back"] },
-    { id:"ranger", name:"Park Ranger", blurb:"Knows the woods. Knows the guns. Knows the silence between them.", traits:["wilderness_survival","trackers_eye","gun_nut"] }
-  ];
-
-  var EXTRA_TRAIT_IDS = ["alcoholic","promiscuous","klutz","daredevil","silver_tongue","bookworm","trust_fund_kid","pack_rat","keepsake","hypochondriac","night_owl","insomniac"];
-
-  var FIRST = ["Sam","Alex","Jordan","Casey","Riley","Morgan","Drew","Taylor","Quinn","Devon"];
-  var LAST  = ["Reyes","Park","Novak","Whitfield","Okafor","Bianchi","Castillo","Munro","Esposito","Hale"];
-
-  // ── render option lists ──
-  function el(html){ var d = document.createElement('div'); d.innerHTML = html.trim(); return d.firstChild; }
-
-  function effectsText(t){
-    var parts = [];
-    if (t.deltas) {
-      var ds = Object.keys(t.deltas).map(function(k){ var v = t.deltas[k]; return (v > 0 ? '+' : '') + v + ' ' + k; });
-      if (ds.length) parts.push(ds.join(', '));
-    }
-    if (t.skill) parts.push('Skill: ' + t.skill);
-    if (t.item) parts.push('Item: ' + t.item);
-    return parts.length ? parts.join(' · ') : 'No mechanical effect — pure flavor';
-  }
-
-
-  var quiz = document.getElementById('ddQuiz');
-  var result = document.getElementById('ddResult');
-  var btnNext = document.getElementById('ddNext');
-  var btnBack = document.getElementById('ddBack');
-  var extraCountEl = document.getElementById('ddExtraCount');
-
-  var scenarioWrap = quiz.querySelector('[data-group="scenario"]');
-  SCENARIOS.forEach(function(s){
-    scenarioWrap.appendChild(el(
-      '<button class="dd-quiz-opt dd-scenario-opt" data-value="' + s.id + '">' +
-        '<span class="dd-quiz-opt-tag">' + s.tag + '</span>' +
-        '<span class="dd-quiz-opt-name">' + s.name + '</span>' +
-        '<span class="dd-quiz-opt-desc">' + s.blurb + '</span>' +
-      '</button>'
-    ));
-  });
-
-  var archWrap = quiz.querySelector('[data-group="archetype"]');
-  ARCHETYPES.forEach(function(a){
-    archWrap.appendChild(el(
-      '<button class="dd-quiz-opt" data-value="' + a.id + '">' +
-        '<span class="dd-quiz-opt-name">' + a.name + '</span>' +
-        '<span class="dd-quiz-opt-desc">' + a.blurb + '</span>' +
-        '<span class="dd-quiz-opt-fit">Thrives in: ' + a.fits.map(function(f){ return SCENARIOS.find(function(s){return s.id===f;}).name; }).join(', ') + '</span>' +
-      '</button>'
-    ));
-  });
-
-  var careerWrap = quiz.querySelector('[data-group="career"]');
-  CAREERS.forEach(function(c){
-    careerWrap.appendChild(el(
-      '<button class="dd-quiz-opt" data-value="' + c.id + '">' +
-        '<span class="dd-quiz-opt-name">' + c.name + '</span>' +
-        '<span class="dd-quiz-opt-desc">' + c.blurb + '</span>' +
-      '</button>'
-    ));
-  });
-
-  var extrasWrap = quiz.querySelector('[data-group="extras"]');
-  EXTRA_TRAIT_IDS.forEach(function(tid){
-    var t = TRAITS[tid];
-    extrasWrap.appendChild(el(
-      '<button class="dd-quiz-opt" data-value="' + tid + '">' +
-        '<span class="dd-quiz-opt-name">' + t.name + '</span>' +
-        '<span class="dd-quiz-opt-desc">' + t.flavor + '</span>' +
-        '<span class="dd-quiz-opt-fx">' + effectsText(t) + '</span>' +
-      '</button>'
-    ));
-  });
-
-  // ── quiz state & navigation ──
-  var state = { scenario: null, archetype: null, career: null, extras: [] };
-  var step = 1;
-
-  function groupForStep(n){ return n===1?'scenario':n===2?'archetype':n===3?'career':'extras'; }
-
-  function showStep(n){
-    quiz.querySelectorAll('.dd-quiz-step').forEach(function(stepEl){
-      stepEl.classList.toggle('is-active', parseInt(stepEl.getAttribute('data-step'),10) === n);
-    });
-    btnBack.disabled = (n === 1);
-    if (n === 4) {
-      btnNext.disabled = state.extras.length !== 2;
-      btnNext.textContent = 'Generate Survivor →';
-    } else {
-      var key = groupForStep(n);
-      btnNext.disabled = !state[key];
-      btnNext.textContent = 'Next →';
-    }
-  }
-
-  quiz.querySelectorAll('.dd-quiz-options').forEach(function(group){
-    var key = group.getAttribute('data-group');
-    var isMulti = group.getAttribute('data-multi') === '2';
-    group.querySelectorAll('.dd-quiz-opt').forEach(function(btn){
-      btn.addEventListener('click', function(){
-        if (!isMulti) {
-          group.querySelectorAll('.dd-quiz-opt').forEach(function(s){ s.classList.remove('is-selected'); });
-          btn.classList.add('is-selected');
-          state[key] = btn.getAttribute('data-value');
-        } else {
-          var val = btn.getAttribute('data-value');
-          var idx = state.extras.indexOf(val);
-          if (idx > -1) {
-            state.extras.splice(idx, 1);
-            btn.classList.remove('is-selected');
-          } else if (state.extras.length < 2) {
-            state.extras.push(val);
-            btn.classList.add('is-selected');
-          }
-          extraCountEl.textContent = '(' + state.extras.length + '/2 selected)';
-          group.querySelectorAll('.dd-quiz-opt').forEach(function(s){
-            var selected = state.extras.indexOf(s.getAttribute('data-value')) > -1;
-            s.classList.toggle('is-disabled', !selected && state.extras.length >= 2);
-          });
-        }
-        showStep(step);
-      });
-    });
-  });
-
-  btnNext.addEventListener('click', function(){
-    if (step < 4) { step++; showStep(step); }
-    else { generateCharacter(); quiz.style.display = 'none'; result.classList.add('is-active'); }
-  });
-  btnBack.addEventListener('click', function(){
-    if (step > 1) { step--; showStep(step); }
-  });
-
-  // ── character generation ──
-  var STAT_KEYS = ['Vigor','Nerve','Charisma','Intellect','Dexterity','Luck'];
-
-  function buildCharacter(){
-    var scenario = SCENARIOS.find(function(s){ return s.id === state.scenario; });
-    var archetype = ARCHETYPES.find(function(a){ return a.id === state.archetype; });
-    var career = CAREERS.find(function(c){ return c.id === state.career; });
-    var traitIds = archetype.traits.concat(career.traits).concat(state.extras);
-    var traits = traitIds.map(function(id){ return Object.assign({ id:id }, TRAITS[id]); });
-
-    var stats = {}; STAT_KEYS.forEach(function(k){ stats[k] = 3; });
-    var skills = []; var items = [];
-    traits.forEach(function(t){
-      Object.keys(t.deltas || {}).forEach(function(k){ stats[k] += t.deltas[k]; });
-      if (t.skill && skills.indexOf(t.skill) === -1) skills.push(t.skill);
-      if (t.item && items.indexOf(t.item) === -1) items.push(t.item);
-    });
-    STAT_KEYS.forEach(function(k){ stats[k] = Math.max(1, Math.min(9, stats[k])); });
-
-    return { scenario: scenario, archetype: archetype, career: career, traits: traits, stats: stats, skills: skills, items: items };
-  }
-
-  var currentChar = null;
-
-  function renderCharacter(c){
-    document.getElementById('ddResultSetting').textContent = c.scenario.name + ' — ' + c.scenario.tag;
-    document.getElementById('ddResultArch').textContent = c.archetype.name;
-    document.getElementById('ddResultCareer').textContent = c.career.name;
-    document.getElementById('ddResultQuote').textContent = c.scenario.quote;
-
-    var statsWrap = document.getElementById('ddResultStats');
-    statsWrap.innerHTML = '';
-    STAT_KEYS.forEach(function(k){
-      statsWrap.appendChild(el('<div class="dd-result-stat"><div class="dd-result-stat-label">' + k + '</div><div class="dd-result-stat-val">' + c.stats[k] + '</div></div>'));
-    });
-
-    var traitsWrap = document.getElementById('ddResultTraits');
-    traitsWrap.innerHTML = '';
-    var traitSources = c.archetype.traits.map(function(){ return c.archetype.name; })
-      .concat(c.career.traits.map(function(){ return c.career.name; }))
-      .concat(state.extras.map(function(){ return 'Extra'; }));
-    c.traits.forEach(function(t, i){
-      var badgeClass = t.type === 'neg' ? 'dd-trait-badge--neg' : 'dd-trait-badge--pos';
-      var badgeLabel = t.type === 'neg' ? 'Drawback' : (t.type === 'extra' ? 'Extra' : 'Trait');
-      traitsWrap.appendChild(el(
-        '<div class="dd-trait-row">' +
-          '<span class="dd-trait-badge ' + badgeClass + '">' + badgeLabel + '</span>' +
-          '<span class="dd-trait-name">' + t.name + '</span>' +
-          '<span class="dd-trait-src">— ' + traitSources[i] + '</span>' +
-          '<span class="dd-trait-flavor">' + t.flavor + '</span>' +
-          '<span class="dd-trait-fx">' + effectsText(t) + '</span>' +
-        '</div>'
-      ));
-    });
-
-    var skillsWrap = document.getElementById('ddResultSkills');
-    skillsWrap.innerHTML = c.skills.length
-      ? c.skills.map(function(s){ return '<span class="dd-chip">' + s + '</span>'; }).join('')
-      : '<span class="dd-chip dd-chip--empty">No trained skills — good luck</span>';
-
-    var itemsWrap = document.getElementById('ddResultItems');
-    itemsWrap.innerHTML = c.items.length
-      ? c.items.map(function(s){ return '<span class="dd-chip">' + s + '</span>'; }).join('')
-      : '<span class="dd-chip dd-chip--empty">Empty pockets</span>';
-  }
-
-  function generateCharacter(){
-    currentChar = buildCharacter();
-    var name = FIRST[Math.floor(Math.random()*FIRST.length)] + ' ' + LAST[Math.floor(Math.random()*LAST.length)];
-    document.getElementById('ddResultName').textContent = name;
-    renderCharacter(currentChar);
-  }
-
-  document.getElementById('ddReroll').addEventListener('click', function(){
-    var name = FIRST[Math.floor(Math.random()*FIRST.length)] + ' ' + LAST[Math.floor(Math.random()*LAST.length)];
-    document.getElementById('ddResultName').textContent = name;
-  });
-  document.getElementById('ddRestart').addEventListener('click', function(){
-    state = { scenario: null, archetype: null, career: null, extras: [] };
-    step = 1;
-    quiz.querySelectorAll('.dd-quiz-opt').forEach(function(s){ s.classList.remove('is-selected','is-disabled'); });
-    extraCountEl.textContent = '(0/2 selected)';
-    showStep(1);
-    result.classList.remove('is-active');
-    quiz.style.display = '';
-  });
-
-  showStep(1);
-})();
-</script>
+<script src="../../js/doomsday.js" defer></script>
 </body>
 </html>
