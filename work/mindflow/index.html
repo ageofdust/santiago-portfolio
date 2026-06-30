@@ -162,6 +162,69 @@
           </div>
         </div>
 
+        <div class="accordion-item">
+          <button class="accordion-trigger" onclick="toggleAccordion(this)">
+            <span class="accordion-num">04</span>
+            <span class="accordion-title">Blog &amp; Editorial</span>
+            <span class="accordion-icon">+</span>
+          </button>
+          <div class="accordion-panel">
+            <div class="accordion-panel-inner">
+
+              <p class="mf-blog-intro">Long-form editorial content covering CBT science, sleep research, and mental wellness — published on the MindFlow blog. Three most recent posts shown below, updated live from <a href="https://mindflow.life/blog" target="_blank" rel="noopener" style="color:var(--rust); border-bottom:1px solid currentColor;">mindflow.life/blog</a>.</p>
+
+              <div class="mf-blog-grid" id="mfBlogGrid">
+
+                <div class="mf-blog-card">
+                  <div class="mf-blog-meta">
+                    <span class="mf-blog-date">June 10, 2026</span>
+                    <span>·</span>
+                    <span>12 min read</span>
+                  </div>
+                  <a class="mf-blog-title" href="https://mindflow.life/en/blog/five-psychological-frameworks-for-understanding-your-dreams" target="_blank" rel="noopener">
+                    Five Psychological Frameworks for Understanding Your Dreams
+                  </a>
+                  <p class="mf-blog-excerpt">What each theory reveals, and why no single one tells the whole story. From Freud and Jung to evolutionary and cognitive theory, here is how a century of research explains why we dream.</p>
+                  <a class="mf-blog-read" href="https://mindflow.life/en/blog/five-psychological-frameworks-for-understanding-your-dreams" target="_blank" rel="noopener">Read article →</a>
+                </div>
+
+                <div class="mf-blog-card">
+                  <div class="mf-blog-meta">
+                    <span class="mf-blog-date">June 2, 2026</span>
+                    <span>·</span>
+                    <span>10 min read</span>
+                  </div>
+                  <a class="mf-blog-title" href="https://mindflow.life/en/blog/science-of-sleep-and-dreams" target="_blank" rel="noopener">
+                    The Science of Sleep and Dreams: REM, Memory Consolidation, and Emotional Processing Explained
+                  </a>
+                  <p class="mf-blog-excerpt">Modern sleep and dream research reveals how REM sleep, memory consolidation, and emotional processing shape what happens in your mind each night.</p>
+                  <a class="mf-blog-read" href="https://mindflow.life/en/blog/science-of-sleep-and-dreams" target="_blank" rel="noopener">Read article →</a>
+                </div>
+
+                <div class="mf-blog-card">
+                  <div class="mf-blog-meta">
+                    <span class="mf-blog-date">May 21, 2026</span>
+                    <span>·</span>
+                    <span>11 min read</span>
+                  </div>
+                  <a class="mf-blog-title" href="https://mindflow.life/en/blog/dream-app-mental-wellbeing-user-stories" target="_blank" rel="noopener">
+                    What a Dream App Does for Your Mental Wellbeing: Real User Stories After One Year
+                  </a>
+                  <p class="mf-blog-excerpt">MindFlow is celebrating one year in, and we decided to ask harder questions than "do people like the app?" Here is what real users told us.</p>
+                  <a class="mf-blog-read" href="https://mindflow.life/en/blog/dream-app-mental-wellbeing-user-stories" target="_blank" rel="noopener">Read article →</a>
+                </div>
+
+              </div>
+
+              <div class="mf-blog-footer">
+                <a class="article-link" href="https://mindflow.life/blog" target="_blank" rel="noopener">View all posts on mindflow.life →</a>
+                <span class="mf-blog-status" id="mfBlogStatus">Checking for updates…</span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
 
@@ -182,6 +245,131 @@
 </footer>
 
 <script src="../../js/main.js" defer></script>
+<script>
+/* ─────────────────────────────────────────────────────────────
+   MindFlow Blog: live-fetch auto-updater
+   • Fetches mindflow.life/blog via a CORS proxy on page load
+   • Parses post links, dates, read times, titles, and excerpts
+   • Updates the grid with the newest 3 posts
+   • Falls back silently to static HTML if anything goes wrong
+   ───────────────────────────────────────────────────────────── */
+(function () {
+  var BLOG_URL   = 'https://mindflow.life/blog';
+  var PROXY      = 'https://api.allorigins.win/raw?url=';
+  var GRID       = document.getElementById('mfBlogGrid');
+  var STATUS     = document.getElementById('mfBlogStatus');
+  var MONTHS     = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var DATE_RE    = new RegExp('(' + MONTHS.join('|') + ')\\s+(\\d{1,2}),?\\s+(\\d{4})');
+  var READTIME_RE = /(\d+)\s*min\s*read/i;
 
-</body>
-</html>
+  function setStatus(msg, cls) {
+    if (!STATUS) return;
+    STATUS.textContent = msg;
+    STATUS.className = 'mf-blog-status' + (cls ? ' ' + cls : '');
+  }
+
+  function parseDate(str) {
+    var m = DATE_RE.exec(str);
+    if (!m) return null;
+    return new Date(parseInt(m[3]), MONTHS.indexOf(m[1]), parseInt(m[2]));
+  }
+
+  function formatDate(d) {
+    return MONTHS[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+  }
+
+  function buildCard(post) {
+    var card = document.createElement('div');
+    card.className = 'mf-blog-card';
+    card.innerHTML =
+      '<div class="mf-blog-meta">' +
+        '<span>' + post.date + '</span>' +
+        '<span>·</span>' +
+        '<span>' + post.readTime + '</span>' +
+      '</div>' +
+      '<a class="mf-blog-title" href="' + post.url + '" target="_blank" rel="noopener">' + post.title + '</a>' +
+      (post.excerpt ? '<p class="mf-blog-excerpt">' + post.excerpt + '</p>' : '') +
+      '<a class="mf-blog-read" href="' + post.url + '" target="_blank" rel="noopener">Read article →</a>';
+    return card;
+  }
+
+  function extractPosts(html) {
+    var doc = new DOMParser().parseFromString(html, 'text/html');
+    var anchors = Array.from(doc.querySelectorAll('a[href]'));
+    var posts = [];
+
+    anchors.forEach(function (a) {
+      var href = a.getAttribute('href') || '';
+      /* only follow /blog/slug links, not the blog index itself */
+      if (!/\/blog\/.+/.test(href)) return;
+      /* make absolute */
+      var url = href.startsWith('http') ? href : 'https://mindflow.life' + href;
+
+      var text = (a.textContent || '').replace(/\s+/g, ' ').trim();
+
+      /* extract date */
+      var dateMatch = DATE_RE.exec(text);
+      if (!dateMatch) return;
+      var dateObj = parseDate(text);
+      var dateStr = formatDate(dateObj);
+      text = text.replace(dateMatch[0], '').trim();
+
+      /* extract read time */
+      var rtMatch = READTIME_RE.exec(text);
+      var readTime = rtMatch ? rtMatch[0] : '';
+      if (rtMatch) text = text.replace(rtMatch[0], '').trim();
+
+      /* remove trailing "Read more" */
+      text = text.replace(/read\s*more\.?$/i, '').trim();
+
+      /* heuristic: title = first "sentence" up to ~120 chars or first period/? */
+      var titleEnd = Math.min(
+        text.indexOf('. ') > 0 ? text.indexOf('. ') : 999,
+        text.indexOf('? ') > 0 ? text.indexOf('? ') : 999,
+        120
+      );
+      var title   = text.slice(0, titleEnd).trim().replace(/[:.]+$/, '');
+      var excerpt = text.slice(titleEnd).trim().replace(/^[.?\s]+/, '');
+
+      if (!title || title.length < 10) return;
+
+      posts.push({ url: url, date: dateStr, dateObj: dateObj, readTime: readTime || '', title: title, excerpt: excerpt });
+    });
+
+    /* dedupe by URL, sort newest first, return top 3 */
+    var seen = {};
+    posts = posts.filter(function (p) {
+      if (seen[p.url]) return false;
+      seen[p.url] = true;
+      return true;
+    });
+    posts.sort(function (a, b) { return b.dateObj - a.dateObj; });
+    return posts.slice(0, 3);
+  }
+
+  function update(posts) {
+    if (!GRID || posts.length === 0) return;
+    while (GRID.firstChild) GRID.removeChild(GRID.firstChild);
+    posts.forEach(function (p) { GRID.appendChild(buildCard(p)); });
+  }
+
+  /* run on load */
+  fetch(PROXY + encodeURIComponent(BLOG_URL))
+    .then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.text();
+    })
+    .then(function (html) {
+      var posts = extractPosts(html);
+      if (posts.length > 0) {
+        update(posts);
+        setStatus('Live · updated ' + new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }), 'is-live');
+      } else {
+        setStatus('Showing cached posts', '');
+      }
+    })
+    .catch(function () {
+      setStatus('Showing cached posts', '');
+    });
+})();
+</script>

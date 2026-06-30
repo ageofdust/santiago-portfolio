@@ -19,7 +19,10 @@
   --ws:  'Work Sans', sans-serif;
 }
 
-.dd { background: var(--nb); color: var(--ink); font-family: var(--cp); }
+/* Page background is Shelter so no light gap bleeds between last section and footer */
+.dd { background: var(--shelt); color: var(--ink); font-family: var(--cp); }
+
+/* Each collapsible section carries its own Notebook background for the reading area */
 
 /* ── header / footer (dark Shelter chrome) ── */
 .dd-hdr { background: var(--shelt); border-bottom: 3px solid var(--blood); }
@@ -116,7 +119,8 @@
 .dd-secnav a:hover, .dd-secnav a.is-current { color: var(--blood); border-color: var(--blood); }
 
 /* ── collapsible sections (native <details>/<summary>) ── */
-.dd-section { border-bottom: 2px solid rgba(28,28,24,.1); }
+/* Each section carries Notebook bg; wrapper behind them is Shelter (no gap at footer) */
+.dd-section { background: var(--nb); border-bottom: 2px solid rgba(28,28,24,.1); }
 .dd-section:last-child { border-bottom: none; }
 
 .dd-section-summary {

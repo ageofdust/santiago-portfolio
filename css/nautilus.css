@@ -1,0 +1,242 @@
+/* ==========================================================================
+   Project Nautilus — page-specific styles
+   Drowned blue-greens, lit by tarnished gold.
+   Cormorant Garamond · EB Garamond · Special Elite
+   ========================================================================== */
+
+:root {
+  --n-abyss:  #07110F;
+  --n-hull:   #0C1C19;
+  --n-teal:   #123A38;
+  --n-verd:   #35635C;
+  --n-seag:   #8FB3AA;
+  --n-gilt:   #C6A24E;
+  --n-bone:   #E9E1D0;
+  --n-oxblood:#7C2529;
+  --n-body:   'EB Garamond', Georgia, serif;
+  --n-display:'Cormorant Garamond', 'Garamond', Georgia, serif;
+  --n-stamp:  'Special Elite', 'Courier New', monospace;
+}
+
+/* ── page wrapper ── */
+.naut { background: var(--n-hull); color: var(--n-bone); font-family: var(--n-body); }
+
+/* ── header / footer overrides: Abyss chrome ── */
+.naut-hdr { background: var(--n-abyss); border-bottom: 1px solid rgba(198,162,78,.25); }
+.naut-hdr .brand-name { color: var(--n-bone); }
+.naut-hdr .brand-year { color: var(--n-verd); }
+.naut-hdr .nav-links a,
+.naut-hdr .mobile-menu a { color: var(--n-seag); }
+.naut-hdr .nav-links a.is-active,
+.naut-hdr .nav-links a:hover,
+.naut-hdr .mobile-menu a:hover { color: var(--n-gilt); border-color: var(--n-gilt); }
+.naut-hdr .menu-toggle span { background: var(--n-bone); }
+.naut-hdr .mobile-menu { background: var(--n-abyss); border-top-color: rgba(198,162,78,.2); }
+
+.naut-ftr { background: var(--n-abyss); border-top: 1px solid rgba(198,162,78,.25); }
+.naut-ftr .brand-name { color: var(--n-bone); }
+.naut-ftr .brand-year { color: var(--n-verd); }
+.naut-ftr .footer-links a { color: var(--n-seag); border-color: transparent; }
+.naut-ftr .footer-links a:hover { color: var(--n-gilt); border-color: var(--n-gilt); }
+.naut-ftr .footer-meta { color: var(--n-verd); }
+
+/* ── back link ── */
+.naut-back {
+  font-family: var(--n-stamp); font-size: 11px; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--n-seag); text-decoration: none; display: inline-block;
+  padding-bottom: 3px; border-bottom: 1px solid transparent;
+  transition: color .2s, border-color .2s; margin-bottom: 48px;
+}
+.naut-back:hover { color: var(--n-gilt); border-color: var(--n-gilt); }
+
+/* ════════════════════════════════════════
+   BRAND SECTION — the face on load
+   ════════════════════════════════════════ */
+.naut-brand { background: var(--n-abyss); padding: 72px 0 80px; border-bottom: 1px solid rgba(198,162,78,.2); }
+
+/* ── stamp / kicker ── */
+.naut-stamp {
+  font-family: var(--n-stamp); font-size: 11px; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--n-gilt); display: inline-flex; align-items: center; gap: 10px; margin-bottom: 32px;
+}
+.naut-stamp::before, .naut-stamp::after {
+  content: '—'; color: var(--n-verd); font-family: var(--n-stamp);
+}
+
+/* ── hero headline ── */
+.naut-title {
+  font-family: var(--n-display); font-weight: 300; font-style: italic;
+  font-size: clamp(52px, 8vw, 96px); line-height: .95; letter-spacing: -.02em;
+  color: var(--n-bone); margin: 0 0 6px; display: block;
+}
+.naut-title em { color: var(--n-gilt); font-style: inherit; }
+
+.naut-subtitle {
+  font-family: var(--n-stamp); font-size: 13px; letter-spacing: .14em; text-transform: uppercase;
+  color: var(--n-seag); margin: 0 0 40px; display: block;
+}
+
+/* ── brand hero grid ── */
+.naut-brand-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 64px; align-items: start; margin-top: 48px; }
+.naut-lead {
+  font-family: var(--n-display); font-size: clamp(20px, 2.4vw, 26px); font-style: italic;
+  line-height: 1.55; color: var(--n-bone); margin: 0 0 20px;
+}
+.naut-body-text {
+  font-family: var(--n-body); font-size: 16px; line-height: 1.8;
+  color: rgba(233,225,208,.7); margin: 0 0 18px;
+}
+.naut-tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+.naut-tag {
+  font-family: var(--n-stamp); font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--n-seag); border: 1px solid rgba(143,179,170,.35); padding: 5px 12px;
+}
+.naut-tag--gilt { color: var(--n-gilt); border-color: rgba(198,162,78,.45); }
+
+/* ── meta panel (right column, brand section) ── */
+.naut-meta-block {
+  background: var(--n-hull); border: 1px solid rgba(198,162,78,.18); padding: 28px 26px;
+  display: flex; flex-direction: column; gap: 1px;
+}
+.naut-meta-row { display: flex; justify-content: space-between; padding: 12px 0;
+  border-bottom: 1px solid rgba(233,225,208,.07); }
+.naut-meta-row:last-child { border-bottom: none; }
+.naut-meta-label { font-family: var(--n-stamp); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: var(--n-verd); }
+.naut-meta-val { font-family: var(--n-stamp); font-size: 11px; letter-spacing: .06em; color: var(--n-gilt); }
+
+.naut-redacted {
+  font-family: var(--n-stamp); font-size: 13px; line-height: 1.6; color: rgba(143,179,170,.6);
+  border-left: 2px solid var(--n-gilt); padding: 14px 18px; margin-top: 20px;
+  background: rgba(198,162,78,.04);
+}
+.naut-redacted em { color: var(--n-gilt); font-style: italic; font-family: var(--n-display); font-size: 16px; }
+
+/* ════════════════════════════════════════
+   BRAND SYSTEM SUBSECTIONS
+   ════════════════════════════════════════ */
+.naut-system { padding: 72px 0; }
+.naut-system-inner { display: flex; flex-direction: column; gap: 80px; }
+
+/* ── section label / divider ── */
+.naut-section-label {
+  display: flex; align-items: center; gap: 16px; margin-bottom: 36px;
+}
+.naut-section-label::after {
+  content: ''; flex: 1; height: 1px; background: rgba(198,162,78,.2);
+}
+.naut-section-label span {
+  font-family: var(--n-stamp); font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--n-gilt); white-space: nowrap;
+}
+
+/* ── MARK — the chambered seal ── */
+.naut-mark-grid { display: grid; grid-template-columns: 220px 1fr; gap: 48px; align-items: start; }
+.naut-seal {
+  width: 220px; height: 220px; border-radius: 50%;
+  border: 2px solid rgba(198,162,78,.4); display: flex; align-items: center; justify-content: center;
+  position: relative; background: radial-gradient(circle at 35% 35%, rgba(18,58,56,.6), var(--n-abyss));
+  flex-shrink: 0;
+}
+.naut-seal-inner {
+  width: 158px; height: 158px; border-radius: 50%;
+  border: 1px solid rgba(198,162,78,.2); display: flex; align-items: center; justify-content: center;
+  flex-direction: column; text-align: center; gap: 0;
+}
+.naut-seal-letter {
+  font-family: var(--n-display); font-style: italic; font-size: 52px; font-weight: 300; line-height: 1;
+  color: var(--n-gilt); letter-spacing: -.03em;
+}
+.naut-seal-sub {
+  font-family: var(--n-stamp); font-size: 9px; letter-spacing: .22em; text-transform: uppercase;
+  color: var(--n-seag); margin-top: 4px;
+}
+.naut-seal-ring-text {
+  position: absolute; width: 200px; height: 200px;
+}
+
+.naut-mark-copy {}
+.naut-mark-hed { font-family: var(--n-display); font-weight: 400; font-style: italic; font-size: 30px; color: var(--n-gilt); margin: 0 0 14px; }
+.naut-mark-body { font-family: var(--n-body); font-size: 16px; line-height: 1.8; color: rgba(233,225,208,.75); margin: 0 0 14px; }
+.naut-mark-rule {
+  font-family: var(--n-stamp); font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--n-seag); padding: 10px 0; border-top: 1px solid rgba(143,179,170,.15);
+  display: flex; align-items: center; gap: 8px;
+}
+.naut-mark-rule::before { content: '//'; color: var(--n-gilt); }
+.naut-lockup-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
+.naut-lockup-pill {
+  font-family: var(--n-display); font-style: italic; font-size: 28px; font-weight: 300;
+  color: var(--n-bone); background: var(--n-hull); border: 1px solid rgba(198,162,78,.2);
+  padding: 8px 22px; letter-spacing: -.01em; line-height: 1;
+}
+.naut-lockup-pill--sm { font-size: 18px; }
+
+/* ── COLOR ── */
+.naut-color-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+@media (max-width: 760px) { .naut-color-grid { grid-template-columns: repeat(2,1fr); } }
+.naut-swatch { display: flex; flex-direction: column; gap: 0; border: 1px solid rgba(233,225,208,.08); overflow: hidden; }
+.naut-swatch-block { height: 72px; }
+.naut-swatch-info { background: var(--n-hull); padding: 10px 12px; }
+.naut-swatch-name { font-family: var(--n-stamp); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--n-seag); }
+.naut-swatch-hex { font-family: var(--n-stamp); font-size: 11px; color: var(--n-gilt); margin-top: 2px; }
+.naut-swatch-role { font-family: var(--n-body); font-size: 12px; font-style: italic; color: rgba(233,225,208,.45); margin-top: 2px; }
+
+/* ── TYPOGRAPHY ── */
+.naut-type-block { display: flex; flex-direction: column; gap: 1px; background: rgba(198,162,78,.1); }
+.naut-type-row {
+  background: var(--n-hull); padding: 24px 28px;
+  display: grid; grid-template-columns: 160px 1fr; gap: 24px; align-items: center;
+}
+.naut-type-row:last-child { padding-bottom: 28px; }
+.naut-type-meta { font-family: var(--n-stamp); font-size: 9px; letter-spacing: .16em; text-transform: uppercase; color: var(--n-verd); line-height: 1.6; }
+.naut-type-meta em { color: var(--n-gilt); font-style: normal; }
+.naut-spec-display { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 300; font-size: 42px; line-height: 1.05; letter-spacing: -.02em; color: var(--n-bone); }
+.naut-spec-body { font-family: 'EB Garamond', serif; font-size: 17px; line-height: 1.75; color: rgba(233,225,208,.8); }
+.naut-spec-stamp { font-family: 'Special Elite', monospace; font-size: 13px; letter-spacing: .06em; color: var(--n-seag); line-height: 1.6; }
+
+/* ── VOICE ── */
+.naut-voice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; background: rgba(198,162,78,.1); }
+.naut-voice-card { background: var(--n-hull); padding: 22px 24px; display: flex; flex-direction: column; gap: 10px; }
+.naut-voice-label { font-family: var(--n-stamp); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--n-gilt); }
+.naut-voice-body { font-family: var(--n-body); font-size: 14px; line-height: 1.65; color: rgba(233,225,208,.65); }
+.naut-voice-quote { font-family: var(--n-display); font-style: italic; font-size: 16px; color: var(--n-seag); border-left: 2px solid rgba(143,179,170,.3); padding-left: 12px; }
+
+/* ════════════════════════════════════════
+   MOCKUPS SECTION
+   ════════════════════════════════════════ */
+.naut-mockups { background: var(--n-abyss); padding: 72px 0; border-top: 1px solid rgba(198,162,78,.2); }
+
+.naut-mockups-hed {
+  font-family: var(--n-display); font-weight: 300; font-style: italic;
+  font-size: clamp(32px, 5vw, 52px); color: var(--n-bone); margin: 0 0 10px;
+}
+.naut-mockups-sub {
+  font-family: var(--n-body); font-size: 16px; line-height: 1.75;
+  color: rgba(233,225,208,.6); max-width: 580px; margin: 0 0 52px;
+}
+
+.naut-mockup-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 2px; background: rgba(198,162,78,.12); }
+.naut-mockup-card {
+  background: var(--n-hull); min-height: 320px; display: flex; flex-direction: column;
+  justify-content: space-between; padding: 32px 30px;
+}
+.naut-mockup-card--wide { grid-column: span 2; min-height: 240px; }
+.naut-mockup-code { font-family: var(--n-stamp); font-size: 9px; letter-spacing: .2em; text-transform: uppercase; color: var(--n-gilt); }
+.naut-mockup-title { font-family: var(--n-display); font-style: italic; font-size: 28px; font-weight: 300; color: var(--n-bone); margin-top: 8px; }
+.naut-mockup-desc { font-family: var(--n-body); font-size: 14px; line-height: 1.6; color: rgba(233,225,208,.5); margin-top: 10px; max-width: 380px; }
+.naut-mockup-placeholder {
+  border: 1px dashed rgba(198,162,78,.2); flex: 1; margin-top: 24px;
+  display: flex; align-items: center; justify-content: center;
+  min-height: 160px;
+}
+.naut-mockup-placeholder span { font-family: var(--n-stamp); font-size: 10px; letter-spacing: .14em; text-transform: uppercase; color: rgba(143,179,170,.3); }
+
+/* ── responsive ── */
+@media (max-width: 760px) {
+  .naut-brand-grid { grid-template-columns: 1fr; gap: 32px; }
+  .naut-mark-grid { grid-template-columns: 1fr; }
+  .naut-seal { margin: 0 auto; }
+  .naut-type-row { grid-template-columns: 1fr; gap: 10px; }
+  .naut-voice-grid { grid-template-columns: 1fr; }
+  .naut-mockup-grid { grid-template-columns: 1fr; }
+  .naut-mockup-card--wide { grid-column: span 1; }
+}
