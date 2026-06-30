@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ageofdust.github.io/santiago-portfolio/sitemap.xml
+Sitemap: https://ageofdust.github.io/sitemap.xml
