@@ -121,7 +121,7 @@
 
 .dd-section-summary {
   display: flex; align-items: flex-start; justify-content: space-between; gap: 24px;
-  padding: 48px 0; cursor: pointer; list-style: none;
+  padding-top: 48px; padding-bottom: 48px; cursor: pointer; list-style: none;
   -webkit-tap-highlight-color: transparent;
 }
 .dd-section-summary::-webkit-details-marker { display: none; }

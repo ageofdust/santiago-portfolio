@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="x-apple-disable-message-reformatting">
+<meta name="color-scheme" content="light only">
+<meta name="supported-color-schemes" content="light only">
+<title>MindFlow &middot; Welcome &mdash; take your time</title>
+
+<!--[if mso]>
+<noscript><xml><o:OfficeDocumentSettings>
+  <o:PixelsPerInch>96</o:PixelsPerInch>
+</o:OfficeDocumentSettings></xml></noscript>
+<![endif]-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600;700&family=Newsreader:ital@0;1&display=swap">
+
+<style>
+  /* ---- progressive enhancement: ignored by Outlook, used by modern clients ---- */
+  body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+  table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+  img { -ms-interpolation-mode: bicubic; border: 0; outline: none; }
+  body { margin: 0; padding: 0; width: 100% !important; }
+  a { text-decoration: none; }
+
+  /* rounded corners + soft shadow for clients that support them */
+  .card-shell {
+    border-radius: 8px;
+    box-shadow: 0 12px 32px -16px rgba(42,22,84,0.18), 0 2px 6px rgba(42,22,84,0.06);
+  }
+  .quote-shell { border-radius: 10px; }
+  .closer-shell { border-radius: 14px; }
+  .btn-shell { border-radius: 999px; }
+
+  /* gradient closer for capable clients (Outlook keeps the solid bgcolor) */
+  .closer-shell {
+    background-image:
+      radial-gradient(120% 90% at 80% 10%, rgba(242,177,151,0.22), transparent 60%),
+      radial-gradient(120% 90% at 10% 90%, rgba(107,87,200,0.22), transparent 60%),
+      linear-gradient(168deg, #1a1342 0%, #2a1654 100%);
+  }
+
+  a.btn-link:hover { opacity: 0.85; }
+
+  /* ---- responsive ---- */
+  @media only screen and (max-width: 620px) {
+    .container { width: 100% !important; }
+    .px { padding-left: 28px !important; padding-right: 28px !important; }
+    .px-closer { padding-left: 22px !important; padding-right: 22px !important; }
+    .h1 { font-size: 36px !important; line-height: 1.08 !important; }
+    .h2 { font-size: 27px !important; }
+    .lede { font-size: 25px !important; }
+    .stack { display: block !important; width: 100% !important; }
+    .stack-gap { height: 14px !important; line-height: 14px !important; }
+  }
+
+  /* dark-mode: keep the light design intact */
+  @media (prefers-color-scheme: dark) {
+    body, .bg-paper { background-color: #f4f1ea !important; }
+    .card-shell { background-color: #ffffff !important; }
+  }
+</style>
+</head>
+
+<body style="margin:0; padding:0; background-color:#f4f1ea;">
+
+<!-- preheader: shown in inbox preview, hidden in the body -->
+<div style="display:none; max-height:0; overflow:hidden; mso-hide:all; font-size:1px; line-height:1px; color:#f4f1ea; opacity:0;">
+  A short note from our founder on what to expect &mdash; and a few ways to start. No rush.
+  &#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;
+</div>
+
+<table role="presentation" class="bg-paper" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#f4f1ea;">
+  <tr>
+    <td align="center" style="padding:32px 12px 64px 12px;">
+
+      <!--[if mso]>
+      <table role="presentation" width="600" align="center" cellpadding="0" cellspacing="0" border="0"><tr><td>
+      <![endif]-->
+
+      <table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0" border="0" style="width:600px; max-width:600px;">
+        <tr>
+          <td>
+
+            <!-- ================= CARD ================= -->
+            <table role="presentation" class="card-shell" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#ffffff" style="background-color:#ffffff; border:1px solid #ece6d6;">
+
+              <!-- opening -->
+              <tr>
+                <td class="px" style="padding:54px 56px 6px 56px;">
+                  <div style="font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; font-size:12px; font-weight:600; letter-spacing:0.24em; text-transform:uppercase; color:#F2B197; padding-bottom:18px;">
+                    A note from the founder
+                  </div>
+                  <h1 class="h1" style="margin:0; font-family:'Newsreader','Instrument Serif',Georgia,'Times New Roman',serif; font-style:italic; font-weight:400; font-size:46px; line-height:1.06; letter-spacing:-0.02em; color:#1e1735;">
+                    Welcome in.<br>Take <span style="color:#6B57C8;">your time</span>.
+                  </h1>
+                </td>
+              </tr>
+
+              <!-- body intro -->
+              <tr>
+                <td class="px" style="padding:20px 56px 0 56px; font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; font-size:16px; line-height:1.65; color:#4a3f6e;">
+                  <p style="margin:0 0 24px 0; font-family:'Newsreader','Instrument Serif',Georgia,'Times New Roman',serif; font-style:italic; font-size:22px; line-height:1.4; color:#1e1735;">Hi {{ contact.DISPLAY_NAME | default : 'friend' }},</p>
+                  <p style="margin:0 0 18px 0;">I&rsquo;m Gustavo, founder of MindFlow. You just started your free trial &mdash; thank you for trusting us with something personal. A quick note before you open the app: <em style="font-family:'Newsreader','Instrument Serif',Georgia,'Times New Roman',serif; font-style:italic; color:#1e1735;">MindFlow isn&rsquo;t built for streaks</em>. It&rsquo;s a place to come when something surfaces &mdash; a dream that stayed with you, a thought you can&rsquo;t shake, a feeling you don&rsquo;t have words for yet.</p>
+                  <p style="margin:18px 0 6px 0; font-family:'Newsreader','Instrument Serif',Georgia,'Times New Roman',serif; font-style:italic; font-size:20px; line-height:1.45; color:#1e1735;">If a week goes by and you haven&rsquo;t opened it, that&rsquo;s fine. When you come back, what&rsquo;s been gathering will be there.</p>
+                </td>
+              </tr>
+
+              <!-- ===== features ===== -->
+
+              <!-- Dream invitation -->
+              <tr>
+                <td class="px" style="padding:30px 56px 0 56px;">
+                  <h2 class="h2" style="margin:0 0 14px 0; font-family:'Newsreader','Instrument Serif',Georgia,'Times New Roman',serif; font-style:italic; font-weight:400; font-size:33px; line-height:1.1; letter-spacing:-0.015em; color:#1e1735;">In the morning, before the day takes over.</h2>
+                  <p style="margin:0 0 24px 0; font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; font-size:15.5px; line-height:1.65; color:#4a3f6e;">When you wake up with a dream still close, press the microphone and just talk. Come back later, when you&rsquo;re calmer, for the questions that help you sit with it. Over time, your Dream Library will start to surface the themes that keep coming back.</p>
+                  <!-- button -->
+                  <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                    <tr><td class="btn-shell" bgcolor="#ffffff" style="border:1.5px solid #2a1654; border-radius:999px;">
+                      <a class="btn-link" href="https://mindflow.life" target="_blank" style="display:inline-block; padding:13px 26px; font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; font-size:14px; font-weight:500; letter-spacing:0.04em; color:#2a1654; text-decoration:none;">Capture a dream&nbsp;&rarr;</a>
+                    </td></tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- ===== closing CTA ===== -->
+              <tr>
+                <td class="px" style="padding:40px 56px 0 56px;">
+                  <table role="presentation" class="closer-shell" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#2a1654" style="background-color:#2a1654;">
+                    <tr>
+                      <td class="px-closer" align="center" style="padding:38px 36px 38px 36px;">
+                        <p class="lede" style="margin:0 0 6px 0; font-family:'Newsreader','Instrument Serif',Georgia,'Times New Roman',serif; font-style:italic; font-size:29px; line-height:1.2; letter-spacing:-0.01em; color:#ffffff;">There&rsquo;s no rush.</p>
+                        <p style="margin:0 0 18px 0; font-family:'Newsreader','Instrument Serif',Georgia,'Times New Roman',serif; font-style:italic; font-size:20px; line-height:1.3; color:#ccc4e0;">Open MindFlow when something comes up.</p>
+                        <p style="margin:0 0 24px 0; font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; font-size:13px; line-height:1.6; color:#9990b5;">A dream you can&rsquo;t shake. A thought that stayed with you. A feeling that won&rsquo;t quite leave.</p>
+                        <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center">
+                          <tr><td class="btn-shell" bgcolor="#2a1654" style="border:1.5px solid #ffffff; border-radius:999px;">
+                            <a class="btn-link" href="https://mindflow.life" target="_blank" style="display:inline-block; padding:14px 30px; font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; font-size:14px; font-weight:500; letter-spacing:0.04em; color:#ffffff; text-decoration:none;">Open MindFlow&nbsp;&rarr;</a>
+                          </td></tr>
+                        </table>
+                      </td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+
+              <!-- signature -->
+              <tr>
+                <td class="px" style="padding:36px 56px 8px 56px;">
+                  <p style="margin:0 0 26px 0; font-family:'Newsreader','Instrument Serif',Georgia,'Times New Roman',serif; font-style:italic; font-size:18px; line-height:1.5; color:#1e1735;">We&rsquo;re glad you&rsquo;re here. Take your time.</p>
+                  <div style="font-family:'Newsreader','Instrument Serif',Georgia,'Times New Roman',serif; font-style:italic; font-size:36px; line-height:1; letter-spacing:-0.01em; color:#1e1735; padding-bottom:8px;">Gustavo</div>
+                  <div style="font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; font-size:13px; font-weight:500; letter-spacing:0.04em; color:#6a6383;">Gustavo Tolone &middot; Founder &amp; CEO, MindFlow</div>
+                </td>
+              </tr>
+
+              <!-- footer -->
+              <tr>
+                <td class="px" style="padding:32px 56px 36px 56px;">
+                  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                    <tr><td style="border-top:1px solid #e6dfcf; padding-top:22px;">
+                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                          <td class="stack" style="font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; font-size:11px; letter-spacing:0.04em; color:#6a6383; vertical-align:middle;">
+                            MindFlow &middot; the gentlest place to know yourself
+                          </td>
+                          <td class="stack stack-gap" style="font-size:1px; line-height:1px;">&nbsp;</td>
+                          <td class="stack" align="right" style="font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; font-size:11px; letter-spacing:0.04em; color:#6a6383; vertical-align:middle; white-space:nowrap;">
+                            <a href="#prefs" target="_blank" style="color:#6a6383; text-decoration:underline;">Preferences</a>
+                            &nbsp;&nbsp;&nbsp;
+                            <a href="{{ unsubscribe }}" target="_blank" style="color:#6a6383; text-decoration:underline;">Unsubscribe</a>
+                          </td>
+                        </tr>
+                      </table>
+                    </td></tr>
+                  </table>
+                </td>
+              </tr>
+
+            </table>
+            <!-- ================= /CARD ================= -->
+
+            <!-- sub-footer outside the card -->
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+              <tr><td align="center" style="padding:20px 24px 0 24px; font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif; font-size:11px; line-height:1.6; letter-spacing:0.04em; color:#6a6383;">
+                You&rsquo;re receiving this because you started a free trial of MindFlow.<br>
+                MindFlow &middot; Sent with care.
+              </td></tr>
+            </table>
+
+          </td>
+        </tr>
+      </table>
+
+      <!--[if mso]>
+      </td></tr></table>
+      <![endif]-->
+
+    </td>
+  </tr>
+</table>
+
+</body>
+</html>

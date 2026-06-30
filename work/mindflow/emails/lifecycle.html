@@ -1,0 +1,3040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mindflow · Email lifecycle journey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F5F1E8;
+    --surface: #FBF8F1;
+    --surface-2: #F0EADC;
+    --ink: #2A2520;
+    --ink-soft: #4E4640;
+    --ink-muted: #7A6F66;
+    --ink-faint: #A89D92;
+    --border: rgba(42, 37, 32, 0.12);
+    --border-strong: rgba(42, 37, 32, 0.22);
+    --purple-bg: #EEEDFE;
+    --purple-border: #7F77DD;
+    --purple-ink: #3C3489;
+    --purple-deep: #534AB7;
+    --teal-bg: #E1F5EE;
+    --teal-border: #1D9E75;
+    --teal-ink: #085041;
+    --amber-bg: #FAEEDA;
+    --amber-border: #EF9F27;
+    --amber-ink: #633806;
+    --amber-soft: #412402;
+    --coral-bg: #FAECE7;
+    --coral-border: #D85A30;
+    --coral-ink: #712B13;
+    --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-serif: "Newsreader", Georgia, serif;
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 48px 24px;
+    background: var(--bg);
+    font-family: var(--font-sans);
+    color: var(--ink);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  .doc-header {
+    max-width: 920px;
+    margin: 0 auto 24px;
+    padding: 0 4px;
+  }
+  .doc-eyebrow {
+    font-size: 12px;
+    color: var(--ink-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .doc-title {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 36px;
+    font-weight: 500;
+    margin: 0 0 6px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .doc-sub {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  /* Stage selector */
+  .stage-selector {
+    max-width: 920px;
+    margin: 0 auto 24px;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+  }
+  .stage-btn {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 10px;
+    border-radius: var(--radius-md);
+    background: transparent;
+    border: 0.5px solid var(--border);
+    color: var(--ink-soft);
+    cursor: pointer;
+    font-family: var(--font-sans);
+    transition: all 0.15s ease-out;
+    text-align: left;
+  }
+  .stage-btn:hover {
+    border-color: var(--border-strong);
+    color: var(--ink);
+    background: var(--surface-2);
+  }
+  .stage-btn.active {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--surface);
+  }
+  .stage-btn-num {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-muted);
+    font-family: var(--font-serif);
+    font-style: italic;
+  }
+  .stage-btn.active .stage-btn-num {
+    color: rgba(251, 248, 241, 0.6);
+  }
+  .stage-btn-name {
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+  .stage-btn-disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  .stage-btn-status {
+    font-size: 10px;
+    color: var(--ink-muted);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-top: 2px;
+  }
+
+  .stage { display: none; }
+  .stage.active { display: block; }
+
+  .container {
+    max-width: 920px;
+    margin: 0 auto;
+    background: var(--surface);
+    border: 0.5px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 40px 44px;
+  }
+  .header {
+    padding-bottom: 24px;
+    border-bottom: 0.5px solid var(--border);
+    margin-bottom: 28px;
+  }
+  .eyebrow {
+    font-size: 12px;
+    color: var(--ink-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 32px;
+    font-weight: 500;
+    margin: 0 0 8px;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .sub {
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 0 0 8px;
+  }
+  .tone-note {
+    font-size: 13px;
+    color: var(--ink-muted);
+    font-style: italic;
+    font-family: var(--font-serif);
+    margin: 6px 0 0;
+  }
+
+  /* Legend */
+  .legend {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 24px;
+    padding: 12px 16px;
+    background: var(--surface-2);
+    border-radius: var(--radius-md);
+    border: 0.5px solid var(--border);
+    flex-wrap: wrap;
+  }
+  .legend-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12.5px;
+    color: var(--ink-soft);
+  }
+  .legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .legend-swatch.email {
+    background: var(--purple-bg);
+    border: 0.5px solid var(--purple-border);
+  }
+  .legend-swatch.push {
+    background: var(--teal-bg);
+    border: 0.5px solid var(--teal-border);
+  }
+  .legend-swatch.window {
+    background: var(--amber-bg);
+    border: 0.5px solid var(--amber-border);
+  }
+
+  /* Sub-tabs (segments within a stage) */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+  .tab {
+    padding: 10px 16px;
+    border-radius: var(--radius-md);
+    background: transparent;
+    border: 0.5px solid var(--border);
+    color: var(--ink-soft);
+    font-size: 13px;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    transition: all 0.15s ease-out;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-align: left;
+  }
+  .tab:hover {
+    border-color: var(--border-strong);
+    color: var(--ink);
+    background: var(--surface-2);
+  }
+  .tab.active {
+    background: var(--surface-2);
+    border-color: var(--border-strong);
+    color: var(--ink);
+  }
+  .tab-count {
+    font-size: 11px;
+    color: var(--ink-muted);
+  }
+  .tab.active .tab-count {
+    color: var(--ink-soft);
+  }
+
+  .panel { display: none; }
+  .panel.active { display: block; }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .meta {
+    padding: 14px 16px;
+    border-radius: var(--radius-md);
+    background: var(--surface-2);
+    border: 0.5px solid var(--border);
+  }
+  .meta-label {
+    font-size: 11px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+  .meta-value {
+    font-size: 13px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+
+  .section-label {
+    font-size: 11px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin: 0 0 16px;
+  }
+
+  /* Inactivity window header */
+  .window-marker {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 28px 0 14px;
+    padding: 10px 14px;
+    background: var(--amber-bg);
+    border: 0.5px solid var(--amber-border);
+    border-radius: var(--radius-md);
+  }
+  .window-marker:first-of-type { margin-top: 8px; }
+  .window-marker-label {
+    font-size: 11px;
+    color: var(--amber-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+  }
+  .window-marker-tone {
+    font-size: 12px;
+    color: var(--amber-soft);
+    font-style: italic;
+    font-family: var(--font-serif);
+    margin-left: auto;
+  }
+
+  .flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: 4px;
+  }
+  .step {
+    display: flex;
+    gap: 16px;
+    position: relative;
+  }
+  .step:not(:last-child)::before {
+    content: "";
+    position: absolute;
+    left: 19px;
+    top: 38px;
+    bottom: -12px;
+    width: 1px;
+    background: var(--border-strong);
+  }
+  .step-dot {
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-family: var(--font-serif);
+    font-style: italic;
+    z-index: 1;
+    background: var(--surface-2);
+    border: 0.5px solid var(--border-strong);
+    color: var(--ink-soft);
+  }
+  .step.email .step-dot {
+    background: var(--purple-bg);
+    border-color: var(--purple-border);
+    color: var(--purple-ink);
+  }
+  .step.push .step-dot {
+    background: var(--teal-bg);
+    border-color: var(--teal-border);
+    color: var(--teal-ink);
+  }
+  .step.entry .step-dot {
+    background: var(--purple-bg);
+    border-color: var(--purple-border);
+    color: var(--purple-ink);
+  }
+  .step.entry-coral .step-dot {
+    background: var(--coral-bg);
+    border-color: var(--coral-border);
+    color: var(--coral-ink);
+  }
+  .step.exit .step-dot {
+    background: var(--teal-bg);
+    border-color: var(--teal-border);
+    color: var(--teal-ink);
+  }
+  .step-body {
+    flex: 1;
+    padding-bottom: 22px;
+    min-width: 0;
+  }
+  .step-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 5px;
+    flex-wrap: wrap;
+  }
+  .channel-tag {
+    display: inline-block;
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+  }
+  .channel-tag.email {
+    background: var(--purple-bg);
+    color: var(--purple-deep);
+    border: 0.5px solid var(--purple-border);
+  }
+  .channel-tag.push {
+    background: var(--teal-bg);
+    color: var(--teal-ink);
+    border: 0.5px solid var(--teal-border);
+  }
+  .step-title {
+    font-size: 14px;
+    color: var(--ink);
+    font-weight: 500;
+    margin-bottom: 4px;
+    line-height: 1.4;
+  }
+  .step-copy, .step-subject {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 15px;
+    color: var(--ink);
+    line-height: 1.5;
+    margin: 8px 0 6px;
+  }
+  .step-note {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+  }
+  .step-pillar {
+    display: inline-block;
+    font-size: 10px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 8px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--bg);
+    border: 0.5px solid var(--border);
+  }
+
+  /* Branches and failure states */
+  .branch {
+    margin: 20px 0 0;
+    padding: 16px 18px;
+    border-radius: var(--radius-md);
+    background: var(--amber-bg);
+    border: 0.5px solid var(--amber-border);
+  }
+  .branch-label {
+    font-size: 11px;
+    color: var(--amber-ink);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+    font-weight: 500;
+  }
+  .branch-row {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 8px 0;
+    font-size: 12.5px;
+    color: var(--amber-soft);
+    line-height: 1.5;
+  }
+  .branch-row:not(:last-child) {
+    border-bottom: 0.5px solid rgba(133, 79, 11, 0.18);
+  }
+  .branch-trigger {
+    flex-shrink: 0;
+    min-width: 180px;
+    font-weight: 500;
+  }
+  .branch-action {
+    flex: 1;
+  }
+
+  .fail {
+    margin: 16px 0 0;
+    padding: 16px 18px;
+    border-radius: var(--radius-md);
+    background: var(--surface-2);
+    border: 0.5px solid var(--border);
+  }
+  .fail-label {
+    font-size: 11px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 10px;
+  }
+  .fail-list {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    line-height: 1.75;
+    padding-left: 18px;
+    margin: 0;
+  }
+  .fail-list li { margin-bottom: 2px; }
+
+  /* Habit loop visualization */
+  .loop-block {
+    margin: 0 0 32px;
+    padding: 24px;
+    border-radius: var(--radius-lg);
+    background: var(--purple-bg);
+    border: 0.5px solid var(--purple-border);
+  }
+  .loop-header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .loop-eyebrow {
+    font-size: 11px;
+    color: var(--purple-deep);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 6px;
+  }
+  .loop-title {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 20px;
+    color: var(--purple-ink);
+    margin: 0 0 4px;
+  }
+  .loop-sub {
+    font-size: 12.5px;
+    color: var(--purple-deep);
+    margin: 0;
+  }
+  .loop-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr) auto;
+    gap: 6px;
+    align-items: stretch;
+  }
+  .loop-step {
+    background: var(--surface);
+    border: 0.5px solid var(--purple-border);
+    border-radius: var(--radius-md);
+    padding: 12px 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    position: relative;
+  }
+  .loop-step-num {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 11px;
+    color: var(--purple-deep);
+    letter-spacing: 0.04em;
+  }
+  .loop-step-name {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 16px;
+    color: var(--purple-ink);
+    font-weight: 500;
+  }
+  .loop-step-desc {
+    font-size: 11.5px;
+    color: var(--ink-soft);
+    line-height: 1.4;
+  }
+  .loop-arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--purple-deep);
+    font-size: 16px;
+    font-family: var(--font-serif);
+    font-style: italic;
+    align-self: center;
+  }
+  .loop-return {
+    margin-top: 12px;
+    text-align: center;
+    font-size: 11.5px;
+    color: var(--purple-deep);
+    font-style: italic;
+    font-family: var(--font-serif);
+  }
+
+  @media (max-width: 760px) {
+    .loop-row { grid-template-columns: 1fr; }
+    .loop-arrow { transform: rotate(90deg); padding: 4px 0; }
+  }
+
+  /* Condensed loop ribbon — for stages where the loop is reinforced, not introduced */
+  .loop-ribbon {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background: var(--purple-bg);
+    border: 0.5px solid var(--purple-border);
+    border-radius: var(--radius-md);
+    margin-bottom: 24px;
+    flex-wrap: wrap;
+  }
+  .loop-ribbon-label {
+    font-size: 10px;
+    color: var(--purple-deep);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-weight: 500;
+    flex-shrink: 0;
+  }
+  .loop-ribbon-flow {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 14px;
+    color: var(--purple-ink);
+    flex: 1;
+    min-width: 200px;
+  }
+  .loop-ribbon-note {
+    font-size: 11.5px;
+    color: var(--purple-deep);
+    font-style: italic;
+    font-family: var(--font-serif);
+    margin-left: auto;
+  }
+  @media (max-width: 760px) {
+    .loop-ribbon-note { margin-left: 0; }
+  }
+
+  /* Nurture track — visual continuation of a stage, set apart from segments */
+  .nurture-section {
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px dashed var(--border-strong);
+  }
+  .nurture-eyebrow {
+    font-size: 11px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+  .nurture-title {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 24px;
+    color: var(--ink);
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+  .nurture-sub {
+    font-size: 13.5px;
+    color: var(--ink-soft);
+    margin: 0 0 4px;
+  }
+  .nurture-tone {
+    font-size: 13px;
+    color: var(--ink-muted);
+    font-style: italic;
+    font-family: var(--font-serif);
+    margin: 4px 0 24px;
+  }
+  .nurture-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 28px;
+    flex-wrap: wrap;
+  }
+
+  /* Coming soon placeholder */
+  .placeholder {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--ink-muted);
+  }
+  .placeholder-icon {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 48px;
+    color: var(--ink-faint);
+    margin-bottom: 12px;
+  }
+  .placeholder-title {
+    font-family: var(--font-serif);
+    font-style: italic;
+    font-size: 22px;
+    color: var(--ink-soft);
+    margin-bottom: 8px;
+  }
+  .placeholder-text {
+    font-size: 14px;
+    color: var(--ink-muted);
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 900px) {
+    .stage-selector { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 760px) {
+    body { padding: 24px 12px; }
+    .doc-title { font-size: 28px; }
+    .container { padding: 28px 20px; }
+    .meta-grid { grid-template-columns: 1fr; }
+    .branch-row { flex-direction: column; gap: 4px; }
+    .branch-trigger { min-width: 0; }
+    h1 { font-size: 26px; }
+    .window-marker { flex-direction: column; align-items: flex-start; gap: 4px; }
+    .window-marker-tone { margin-left: 0; }
+    .stage-selector { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="doc-header">
+  <div class="doc-eyebrow">Mindflow · Email lifecycle journey</div>
+  <h1 class="doc-title">From curiosity to advocacy</h1>
+  <p class="doc-sub">Stage-by-stage email and push notification strategy. Version 1.0 · 2026</p>
+</div>
+
+<div class="stage-selector" id="stage-selector">
+  <button class="stage-btn active" data-stage="awareness">
+    <span class="stage-btn-num">01</span>
+    <span class="stage-btn-name">Awareness</span>
+  </button>
+  <button class="stage-btn" data-stage="activation">
+    <span class="stage-btn-num">02</span>
+    <span class="stage-btn-name">Activation</span>
+  </button>
+  <button class="stage-btn" data-stage="habit">
+    <span class="stage-btn-num">03</span>
+    <span class="stage-btn-name">Habit formation</span>
+  </button>
+  <button class="stage-btn stage-btn-disabled" data-stage="deep">
+    <span class="stage-btn-num">04</span>
+    <span class="stage-btn-name">Deep engagement</span>
+    <span class="stage-btn-status">Coming next</span>
+  </button>
+  <button class="stage-btn" data-stage="reengagement">
+    <span class="stage-btn-num">05</span>
+    <span class="stage-btn-name">Re-engagement</span>
+  </button>
+  <button class="stage-btn stage-btn-disabled" data-stage="advocacy">
+    <span class="stage-btn-num">06</span>
+    <span class="stage-btn-name">Advocacy</span>
+    <span class="stage-btn-status">Coming next</span>
+  </button>
+</div>
+
+<!-- ============================================================
+     STAGE 01 · AWARENESS
+     ============================================================ -->
+<div class="stage active" data-stage="awareness">
+  <div class="container">
+    <div class="header">
+      <div class="eyebrow">Stage 01 · Awareness</div>
+      <h1>From curiosity to first capture</h1>
+      <p class="sub">3–5 emails over 10–14 days. No product explanation. Only recognition.</p>
+    </div>
+
+    <div class="tabs" data-scope="awareness">
+      <button class="tab active" data-panel="web">Website visitor <span class="tab-count">5 emails</span></button>
+      <button class="tab" data-panel="social">Social media follower <span class="tab-count">4 emails</span></button>
+      <button class="tab" data-panel="event">Event attendee <span class="tab-count">5 emails</span></button>
+    </div>
+
+    <!-- WEBSITE -->
+    <div class="panel active" data-panel="web">
+      <div class="meta-grid">
+        <div class="meta">
+          <div class="meta-label">Entry trigger</div>
+          <div class="meta-value">Email signup, resource download, or multi-visit site activity</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Cadence</div>
+          <div class="meta-value">5 emails over 14 days</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Exit condition</div>
+          <div class="meta-value">User creates an account</div>
+        </div>
+      </div>
+
+      <div class="section-label">Sequence</div>
+      <div class="flow">
+        <div class="step entry">
+          <div class="step-dot">◐</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 0 · Entry</span></div>
+            <div class="step-title">User submits email on the website or downloads a resource</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">1</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 1 · Email 01</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Welcome and recognition</div>
+            <div class="step-subject">"You've had this thought before"</div>
+            <div class="step-pillar">Patterns over moments</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">2</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 4 · Email 02</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Introducing dreams as the entry point</div>
+            <div class="step-subject">"Do you remember your dreams… or do they just disappear?"</div>
+            <div class="step-pillar">Dreams don't lie</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">3</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 7 · Email 03</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">The repetition idea</div>
+            <div class="step-subject">"Something in your mind is repeating"</div>
+            <div class="step-pillar">Patterns over moments</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">4</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 10 · Email 04</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Permission to not have it figured out</div>
+            <div class="step-subject">"You don't need to understand it yet"</div>
+            <div class="step-pillar">Clarity belongs to you</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">5</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 14 · Email 05</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Soft invitation to capture</div>
+            <div class="step-subject">"This keeps coming back for a reason"</div>
+            <div class="step-pillar">Patterns over moments</div>
+          </div>
+        </div>
+        <div class="step exit">
+          <div class="step-dot">✓</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Exit</span></div>
+            <div class="step-title">Account created → moves to Activation stage</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="branch">
+        <div class="branch-label">Behavioral branches (override scheduled sends)</div>
+        <div class="branch-row">
+          <div class="branch-trigger">Opened, no click</div>
+          <div class="branch-action">Send: "You don't need to understand it yet" (lower-pressure variant) the next day.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Clicked, no signup</div>
+          <div class="branch-action">Send: "Something in your mind is repeating" within 48 hours, focused on the dream angle.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">3+ site visits in 5 days</div>
+          <div class="branch-action">Accelerate cadence — send next email within 24 hours.</div>
+        </div>
+      </div>
+
+      <div class="fail">
+        <div class="fail-label">Failure state · No conversion after 14 days</div>
+        <ul class="fail-list">
+          <li>Move to low-frequency nurture track (monthly)</li>
+          <li>Reintroduce through thoughts angle instead of dreams</li>
+          <li>Invite to upcoming event or workshop rather than the app</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SOCIAL -->
+    <div class="panel" data-panel="social">
+      <div class="meta-grid">
+        <div class="meta">
+          <div class="meta-label">Entry trigger</div>
+          <div class="meta-value">DM signup, link-in-bio capture, or paid social lead form</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Cadence</div>
+          <div class="meta-value">4 emails over 12 days</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Exit condition</div>
+          <div class="meta-value">User creates an account</div>
+        </div>
+      </div>
+
+      <div class="section-label">Sequence</div>
+      <div class="flow">
+        <div class="step entry">
+          <div class="step-dot">◐</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 0 · Entry</span></div>
+            <div class="step-title">User submits email through social channel</div>
+            <div class="step-note">Context: arrived from short-form content. Already primed for one specific idea. Lead with that.</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">1</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 1 · Email 01</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Continue the moment from the post</div>
+            <div class="step-subject">"The thing you stopped scrolling for"</div>
+            <div class="step-pillar">Dreams don't lie</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">2</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 4 · Email 02</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Move from feed to inner life</div>
+            <div class="step-subject">"Your dreams are running ahead of you"</div>
+            <div class="step-pillar">Dreams don't lie</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">3</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 8 · Email 03</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Introduce repetition</div>
+            <div class="step-subject">"You've had this thought before"</div>
+            <div class="step-pillar">Patterns over moments</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">4</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 12 · Email 04</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Soft invitation to capture</div>
+            <div class="step-subject">"This keeps coming back for a reason"</div>
+            <div class="step-pillar">Clarity belongs to you</div>
+          </div>
+        </div>
+        <div class="step exit">
+          <div class="step-dot">✓</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Exit</span></div>
+            <div class="step-title">Account created → moves to Activation stage</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="branch">
+        <div class="branch-label">Behavioral branches (override scheduled sends)</div>
+        <div class="branch-row">
+          <div class="branch-trigger">Opened, no click</div>
+          <div class="branch-action">Reduce subject-line intensity. Switch from dreams to thoughts angle on the next send.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Clicked, no signup</div>
+          <div class="branch-action">Send a content-led follow-up (no CTA): "You don't need to understand it yet."</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Re-engaged with social post</div>
+          <div class="branch-action">Skip ahead — send "This keeps coming back for a reason" within 24 hours.</div>
+        </div>
+      </div>
+
+      <div class="fail">
+        <div class="fail-label">Failure state · No conversion after 12 days</div>
+        <ul class="fail-list">
+          <li>Move to low-frequency nurture track</li>
+          <li>Retarget on the social platform the user came from</li>
+          <li>Invite to an upcoming event as a softer second touchpoint</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- EVENT -->
+    <div class="panel" data-panel="event">
+      <div class="meta-grid">
+        <div class="meta">
+          <div class="meta-label">Entry trigger</div>
+          <div class="meta-value">Event registration, workshop signup, or waitlist submission</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Cadence</div>
+          <div class="meta-value">5 emails across pre and post event (10–14 days)</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Exit condition</div>
+          <div class="meta-value">User creates an account</div>
+        </div>
+      </div>
+
+      <div class="section-label">Sequence — Pre-event</div>
+      <div class="flow">
+        <div class="step entry">
+          <div class="step-dot">◐</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 0 · Entry</span></div>
+            <div class="step-title">User registers for an event or workshop</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">1</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 0 · Email 01 · Confirmation</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Confirm and frame the event</div>
+            <div class="step-subject">"You're in. Here's what we'll be looking at."</div>
+            <div class="step-pillar">Between the sessions</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">2</div>
+          <div class="step-body">
+            <div class="step-meta"><span>T-minus 2 days · Email 02 · Pre-frame</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Prime them to notice something specific</div>
+            <div class="step-subject">"Bring the dream you can't shake"</div>
+            <div class="step-pillar">Dreams don't lie</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-label">Sequence — Post-event</div>
+      <div class="flow">
+        <div class="step email">
+          <div class="step-dot">3</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day after event · Email 03</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Carry the moment forward</div>
+            <div class="step-subject">"What came up for you yesterday?"</div>
+            <div class="step-pillar">Clarity belongs to you</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">4</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day +4 · Email 04</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Reinforce repetition</div>
+            <div class="step-subject">"Something in your mind is repeating"</div>
+            <div class="step-pillar">Patterns over moments</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">5</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day +8 · Email 05</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Soft invitation to capture between events</div>
+            <div class="step-subject">"You don't have to wait for the next one"</div>
+            <div class="step-pillar">Between the sessions</div>
+          </div>
+        </div>
+        <div class="step exit">
+          <div class="step-dot">✓</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Exit</span></div>
+            <div class="step-title">Account created → moves to Activation stage</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="branch">
+        <div class="branch-label">Behavioral branches (override scheduled sends)</div>
+        <div class="branch-row">
+          <div class="branch-trigger">Attended the event</div>
+          <div class="branch-action">Proceed with Email 03 the morning after. Reference the event without recapping it.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Registered, did not attend</div>
+          <div class="branch-action">Replace Email 03 with "We saved you a seat — here's where it left off." Continue from Email 04.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Opened post-event, no click</div>
+          <div class="branch-action">Skip Email 04. Send: "You don't have to wait for the next one" with no CTA pressure.</div>
+        </div>
+      </div>
+
+      <div class="fail">
+        <div class="fail-label">Failure state · No conversion after sequence</div>
+        <ul class="fail-list">
+          <li>Move to low-frequency nurture track</li>
+          <li>Invite to the next upcoming event or workshop</li>
+          <li>Reintroduce through the thoughts angle in 30 days</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     STAGE 05 · RE-ENGAGEMENT
+     ============================================================ -->
+<div class="stage" data-stage="reengagement">
+  <div class="container">
+    <div class="header">
+      <div class="eyebrow">Stage 05 · Re-engagement</div>
+      <h1>Come back to this whenever you want</h1>
+      <p class="sub">Trigger-based sequence across 7, 14, 30, and 60+ day inactivity windows. Email and push interleaved.</p>
+      <p class="tone-note">No urgency. No guilt. No pressure. Familiar, grounded, open-ended.</p>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item">
+        <span class="legend-swatch email"></span>
+        <span>Email</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-swatch push"></span>
+        <span>Push notification (app users only)</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-swatch window"></span>
+        <span>Inactivity milestone</span>
+      </div>
+    </div>
+
+    <div class="tabs" data-scope="reengagement">
+      <button class="tab active" data-panel="seg-a">Segment A · Early drop-off <span class="tab-count">3 emails · 3 pushes</span></button>
+      <button class="tab" data-panel="seg-b">Segment B · Activated but churned <span class="tab-count">4 emails · 4 pushes</span></button>
+      <button class="tab" data-panel="seg-c">Segment C · Previously highly engaged <span class="tab-count">4 emails · 5 pushes</span></button>
+    </div>
+
+    <!-- SEGMENT A -->
+    <div class="panel active" data-panel="seg-a">
+      <div class="meta-grid">
+        <div class="meta">
+          <div class="meta-label">Audience</div>
+          <div class="meta-value">Inactive within their first 7 days. Recorded few or no entries.</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Tone</div>
+          <div class="meta-value">Lightest touch. Familiar, not personal. Nothing to "come back to" yet.</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Exit condition</div>
+          <div class="meta-value">Logs new entry, revisits past entry, or returns within short timeframe</div>
+        </div>
+      </div>
+
+      <div class="section-label">Sequence</div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">7 days inactive · Light touch</span>
+        <span class="window-marker-tone">"You can pick this back up anytime"</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 7 · 9:00am local</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Light, no-pressure re-entry</div>
+            <div class="step-copy">"Something on your mind today?"</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">✉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 8 · Email 01</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Reduce friction further</div>
+            <div class="step-copy">"You can pick this back up anytime"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">14 days inactive · Light touch</span>
+        <span class="window-marker-tone">"You don't need to start over"</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 14 · Evening</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Reframe restart as continuation</div>
+            <div class="step-copy">"One sentence. That's all this needs."</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">✉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 15 · Email 02</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Remove the backlog feeling</div>
+            <div class="step-copy">"You don't need to start over"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">30 days inactive · Reconnection</span>
+        <span class="window-marker-tone">"This is still here when you're ready"</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 30 · Morning</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Open invitation</div>
+            <div class="step-copy">"Still here when you're ready"</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">✉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 32 · Email 03 · Final</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Soft close on active sequence</div>
+            <div class="step-copy">"If you come back, just start with one thing"</div>
+            <div class="step-note">After this, user moves to long-term nurture if no response.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="branch">
+        <div class="branch-label">Behavioral branches</div>
+        <div class="branch-row">
+          <div class="branch-trigger">App reopened (no entry)</div>
+          <div class="branch-action">Trigger in-app push within session: "Add one sentence. That's enough." Hold further email sends for 48 hours.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">New entry recorded</div>
+          <div class="branch-action">Exit Re-engagement. Drop user into Activation Failure State B (one entry, no return) to lock in the second action.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Opens email, no return</div>
+          <div class="branch-action">Trigger push 24 hours later with smallest possible ask: "Open the app. That's it."</div>
+        </div>
+      </div>
+
+      <div class="fail">
+        <div class="fail-label">Failure state · 60+ days inactive after full sequence</div>
+        <ul class="fail-list">
+          <li>Move to low-frequency long-term nurture (monthly email only, push suspended)</li>
+          <li>Suppress push notifications to avoid notification fatigue</li>
+          <li>Shift channel — consider paid retargeting on the original acquisition source</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SEGMENT B -->
+    <div class="panel" data-panel="seg-b">
+      <div class="meta-grid">
+        <div class="meta">
+          <div class="meta-label">Audience</div>
+          <div class="meta-value">Completed activation, built early continuity, then stopped.</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Tone</div>
+          <div class="meta-value">Familiar. They have entries to come back to — gently surface that.</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Exit condition</div>
+          <div class="meta-value">Logs new entry, revisits past entry, or returns again within short timeframe</div>
+        </div>
+      </div>
+
+      <div class="section-label">Sequence</div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">7 days inactive · Light touch</span>
+        <span class="window-marker-tone">Reference what they built</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 7 · Evening</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Surface a past entry</div>
+            <div class="step-copy">"You wrote something here last week"</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">✉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 8 · Email 01</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Reassure nothing's lost</div>
+            <div class="step-copy">"You can pick this back up anytime"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">14 days inactive · Light touch</span>
+        <span class="window-marker-tone">Acknowledge the gap, lower the bar</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 14 · Morning</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Reframe revisit as the ask</div>
+            <div class="step-copy">"Open what you wrote before"</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">✉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 15 · Email 02</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Continuity, not catch-up</div>
+            <div class="step-copy">"You don't need to start over"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">30 days inactive · Reconnection</span>
+        <span class="window-marker-tone">Point to what they were starting to see</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 30 · Evening</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Hint at what was forming</div>
+            <div class="step-copy">"Something was starting to repeat"</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">✉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 32 · Email 03</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Reframe what they had</div>
+            <div class="step-copy">"You were starting to see something"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">60+ days inactive · Deeper reset</span>
+        <span class="window-marker-tone">"This is still here when you're ready"</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 60 · Morning</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Final low-pressure prompt</div>
+            <div class="step-copy">"Open the app. That's it."</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">✉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 62 · Email 04 · Final</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Soft close on active sequence</div>
+            <div class="step-copy">"If you come back, just start with one thing"</div>
+            <div class="step-note">After this, user moves to long-term nurture if no response.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="branch">
+        <div class="branch-label">Behavioral branches</div>
+        <div class="branch-row">
+          <div class="branch-trigger">App reopened (no entry)</div>
+          <div class="branch-action">In-app push: "Take another look at what you wrote." Suppress next scheduled email for 48 hours.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Past entry revisited</div>
+          <div class="branch-action">Trigger second push within 24 hours: "Add one more, even if it's small." Move toward Activation continuity messaging.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">New entry recorded</div>
+          <div class="branch-action">Exit Re-engagement. Apply Activation Failure State B (one entry, no return) for 24–48 hours to reinforce second action.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Opens email, no return</div>
+          <div class="branch-action">Simplify next push to single-action ask. Suppress further email until app activity resumes.</div>
+        </div>
+      </div>
+
+      <div class="fail">
+        <div class="fail-label">Failure state · No response after full sequence</div>
+        <ul class="fail-list">
+          <li>Move to low-frequency long-term nurture (monthly email)</li>
+          <li>Suspend push notifications to avoid fatigue</li>
+          <li>Re-evaluate channel — consider paid retargeting if user has high prior LTV signals</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- SEGMENT C -->
+    <div class="panel" data-panel="seg-c">
+      <div class="meta-grid">
+        <div class="meta">
+          <div class="meta-label">Audience</div>
+          <div class="meta-value">Had consistent or frequent usage before stopping. Recognized patterns.</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Tone</div>
+          <div class="meta-value">Familiar. Reference prior consistency without guilt. Highest value, handle with care.</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Exit condition</div>
+          <div class="meta-value">Logs new entry, revisits past entries, or returns again within short timeframe</div>
+        </div>
+      </div>
+
+      <div class="section-label">Sequence</div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">7 days inactive · Light touch</span>
+        <span class="window-marker-tone">Lightest possible. They may just be busy.</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 7 · Evening</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Quiet invitation</div>
+            <div class="step-copy">"Anything come up this week?"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">14 days inactive · Light touch</span>
+        <span class="window-marker-tone">Surface their library</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 14 · Morning</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Point back to what they built</div>
+            <div class="step-copy">"Your library is still here"</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">✉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 15 · Email 01</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Acknowledge consistency without pressure</div>
+            <div class="step-copy">"You can pick this back up anytime"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">30 days inactive · Reconnection</span>
+        <span class="window-marker-tone">Reference what they were noticing</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 30 · Evening</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Recall the pattern work</div>
+            <div class="step-copy">"There was a pattern forming"</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">✉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 32 · Email 02</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Surface what was building</div>
+            <div class="step-copy">"There was something here worth noticing"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">45 days inactive · Mid-window touch</span>
+        <span class="window-marker-tone">High-value segment gets one extra prompt</span>
+      </div>
+      <div class="flow">
+        <div class="step email">
+          <div class="step-dot">✉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 45 · Email 03</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Reframe — change is part of the pattern</div>
+            <div class="step-copy">"You'd been coming back consistently. What changed?"</div>
+            <div class="step-note">Reflective, not accusatory. Tone matches "Don't Look Away" value — naming what's there without softening it.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">60+ days inactive · Deeper reset</span>
+        <span class="window-marker-tone">Final active touchpoint before long-term nurture</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 60 · Morning</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Open the door without pulling</div>
+            <div class="step-copy">"Still here. No pressure."</div>
+          </div>
+        </div>
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 65 · Evening</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Final low-pressure prompt</div>
+            <div class="step-copy">"Just one thing, whenever"</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">✉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 68 · Email 04 · Final</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Soft close on active sequence</div>
+            <div class="step-copy">"If you come back, just start with one thing"</div>
+            <div class="step-note">After this, user moves to low-frequency long-term nurture if no response.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="branch">
+        <div class="branch-label">Behavioral branches</div>
+        <div class="branch-row">
+          <div class="branch-trigger">App reopened (no entry)</div>
+          <div class="branch-action">In-app push surfacing Dream Library: "Look back at what you built." Suppress next scheduled email for 48 hours.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Past entry revisited</div>
+          <div class="branch-action">Trigger second push within 24 hours referencing pattern recognition: "There's still something forming here."</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">New entry recorded</div>
+          <div class="branch-action">Exit Re-engagement. Drop into Activation continuity messaging within 24–48 hours to lock the second action.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Repeated churn cycle</div>
+          <div class="branch-action">Flag as unstable retention. Reduce frequency, focus on habit reinforcement over reactivation, suppress urgency-coded prompts.</div>
+        </div>
+      </div>
+
+      <div class="fail">
+        <div class="fail-label">Failure state · No response after full sequence</div>
+        <ul class="fail-list">
+          <li>Move to low-frequency long-term nurture (quarterly email only)</li>
+          <li>Suspend push notifications</li>
+          <li>This is the highest-value re-engagement segment — consider one-time hand-written outreach or beta/community invite as a softer second touchpoint</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===================== LOW-FREQUENCY NURTURE TRACK ===================== -->
+    <div class="nurture-section">
+      <div class="nurture-eyebrow">Re-engagement · Post-failure track</div>
+      <h2 class="nurture-title">Low-frequency nurture</h2>
+      <p class="nurture-sub">Where users land when the active Re-engagement sequence ends without return. Two tracks based on prior value.</p>
+      <p class="nurture-tone">Not a campaign. A door left open. Any return signal ends the track immediately.</p>
+
+      <div class="legend">
+        <div class="legend-item">
+          <span class="legend-swatch email"></span>
+          <span>Email (monthly or quarterly)</span>
+        </div>
+        <div class="legend-item">
+          <span class="legend-swatch push"></span>
+          <span>Push (Track 2 only — high-value occasional)</span>
+        </div>
+      </div>
+
+      <div class="tabs nurture-tabs" data-scope="reengagement-nurture">
+        <button class="tab active" data-panel="nurture-1">Track 1 · Low prior engagement <span class="tab-count">Monthly · email only</span></button>
+        <button class="tab" data-panel="nurture-2">Track 2 · Previously high value <span class="tab-count">Quarterly + occasional push</span></button>
+      </div>
+
+      <!-- TRACK 1 -->
+      <div class="panel active" data-panel="nurture-1">
+        <div class="meta-grid">
+          <div class="meta">
+            <div class="meta-label">Audience</div>
+            <div class="meta-value">Came from Re-engagement Segment A (Early Drop-Off) or Segment B (Activated but Churned) without high prior LTV signals.</div>
+          </div>
+          <div class="meta">
+            <div class="meta-label">Cadence</div>
+            <div class="meta-value">One email per month. No push. No urgency.</div>
+          </div>
+          <div class="meta">
+            <div class="meta-label">Exit conditions</div>
+            <div class="meta-value">Any return signal · email reply · unsubscribe</div>
+          </div>
+        </div>
+
+        <div class="section-label">Twelve-month rotation</div>
+
+        <div class="window-marker">
+          <span class="window-marker-label">Month 1 · After active sequence ends</span>
+          <span class="window-marker-tone">Reset the relationship</span>
+        </div>
+        <div class="flow">
+          <div class="step email">
+            <div class="step-dot">1</div>
+            <div class="step-body">
+              <div class="step-meta"><span>Month 1 · Email 01</span><span class="channel-tag email">Email</span></div>
+              <div class="step-title">Open door, no ask</div>
+              <div class="step-copy">"This is still here. No catching up required."</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="window-marker">
+          <span class="window-marker-label">Months 2–3 · Quiet</span>
+          <span class="window-marker-tone">No sends. Let the previous one settle.</span>
+        </div>
+
+        <div class="window-marker">
+          <span class="window-marker-label">Month 4 · Different angle</span>
+          <span class="window-marker-tone">Reintroduce through thoughts, not dreams</span>
+        </div>
+        <div class="flow">
+          <div class="step email">
+            <div class="step-dot">2</div>
+            <div class="step-body">
+              <div class="step-meta"><span>Month 4 · Email 02</span><span class="channel-tag email">Email</span></div>
+              <div class="step-title">Lead with a different entry point</div>
+              <div class="step-copy">"Forget the dreams. What's just been on your mind?"</div>
+              <div class="step-note">Per source doc recovery strategy — reintroduce through thoughts rather than dreams.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="window-marker">
+          <span class="window-marker-label">Month 7 · Soft invitation</span>
+          <span class="window-marker-tone">Event/workshop angle</span>
+        </div>
+        <div class="flow">
+          <div class="step email">
+            <div class="step-dot">3</div>
+            <div class="step-body">
+              <div class="step-meta"><span>Month 7 · Email 03</span><span class="channel-tag email">Email</span></div>
+              <div class="step-title">Pivot channel — invite to event, not app</div>
+              <div class="step-copy">"There's a workshop next week. No app required."</div>
+              <div class="step-note">Mirrors Awareness failure-state recovery — events as softer second touchpoint.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="window-marker">
+          <span class="window-marker-label">Month 10 · Brand-level touch</span>
+          <span class="window-marker-tone">No CTA. Just a piece of writing.</span>
+        </div>
+        <div class="flow">
+          <div class="step email">
+            <div class="step-dot">4</div>
+            <div class="step-body">
+              <div class="step-meta"><span>Month 10 · Email 04</span><span class="channel-tag email">Email</span></div>
+              <div class="step-title">Editorial — no product mention</div>
+              <div class="step-copy">"What your dreams know before you do"</div>
+              <div class="step-note">Pure brand content. Builds back recognition without asking for anything.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="window-marker">
+          <span class="window-marker-label">Month 12 · Annual decision point</span>
+          <span class="window-marker-tone">Stay, leave, or come back</span>
+        </div>
+        <div class="flow">
+          <div class="step email">
+            <div class="step-dot">5</div>
+            <div class="step-body">
+              <div class="step-meta"><span>Month 12 · Email 05</span><span class="channel-tag email">Email</span></div>
+              <div class="step-title">Year-mark honest check-in</div>
+              <div class="step-copy">"It's been a year. Want to keep hearing from us?"</div>
+              <div class="step-note">If no engagement after Month 12, suppress further sends. List hygiene.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="branch">
+          <div class="branch-label">Exit triggers (any of these end the track immediately)</div>
+          <div class="branch-row">
+            <div class="branch-trigger">App reopened</div>
+            <div class="branch-action">Exit nurture. Pull back into active Re-engagement at the inactivity window that matches their current dormancy (most likely 60+ days deeper reset).</div>
+          </div>
+          <div class="branch-row">
+            <div class="branch-trigger">New entry recorded</div>
+            <div class="branch-action">Exit nurture. Move directly to Activation Failure State B (one entry, no return) to lock in continuity.</div>
+          </div>
+          <div class="branch-row">
+            <div class="branch-trigger">Email opened with click</div>
+            <div class="branch-action">Do not accelerate cadence. Single open isn't a signal. Wait for app activity.</div>
+          </div>
+          <div class="branch-row">
+            <div class="branch-trigger">Email opened 3+ times across track</div>
+            <div class="branch-action">Mark as engaged-dormant. Continue track. Consider one-time invite to event channel as soft escalation.</div>
+          </div>
+        </div>
+
+        <div class="fail">
+          <div class="fail-label">End state · No engagement after Month 12</div>
+          <ul class="fail-list">
+            <li>Suppress further sends</li>
+            <li>Remove from active marketing lists for list hygiene</li>
+            <li>Retain user record — they may return through paid acquisition later</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- TRACK 2 -->
+      <div class="panel" data-panel="nurture-2">
+        <div class="meta-grid">
+          <div class="meta">
+            <div class="meta-label">Audience</div>
+            <div class="meta-value">Came from Re-engagement Segment C (Previously Highly Engaged) or B users with high prior LTV signals. Highest-value churned segment.</div>
+          </div>
+          <div class="meta">
+            <div class="meta-label">Cadence</div>
+            <div class="meta-value">Quarterly email + 1–2 push notifications per year. Lowest-touch, highest-quality.</div>
+          </div>
+          <div class="meta">
+            <div class="meta-label">Exit conditions</div>
+            <div class="meta-value">Any return signal · email reply · unsubscribe</div>
+          </div>
+        </div>
+
+        <div class="section-label">Annual rotation</div>
+
+        <div class="window-marker">
+          <span class="window-marker-label">Quarter 1 · After active sequence ends</span>
+          <span class="window-marker-tone">Reference what they built, not what they left</span>
+        </div>
+        <div class="flow">
+          <div class="step email">
+            <div class="step-dot">1</div>
+            <div class="step-body">
+              <div class="step-meta"><span>Q1 · Email 01</span><span class="channel-tag email">Email</span></div>
+              <div class="step-title">Acknowledge the library exists</div>
+              <div class="step-copy">"Your library hasn't gone anywhere"</div>
+              <div class="step-note">Per source doc — this segment had real prior usage. The Dream Library is the most emotionally resonant artifact for them.</div>
+            </div>
+          </div>
+          <div class="step push">
+            <div class="step-dot">◉</div>
+            <div class="step-body">
+              <div class="step-meta"><span>Q1 · 7 days after email</span><span class="channel-tag push">Push</span></div>
+              <div class="step-title">Single low-pressure push</div>
+              <div class="step-copy">"Still here. Library and all."</div>
+              <div class="step-note">Only sent if email was opened. Otherwise suppressed.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="window-marker">
+          <span class="window-marker-label">Quarter 2 · Pattern reference</span>
+          <span class="window-marker-tone">Honor what was forming</span>
+        </div>
+        <div class="flow">
+          <div class="step email">
+            <div class="step-dot">2</div>
+            <div class="step-body">
+              <div class="step-meta"><span>Q2 · Email 02</span><span class="channel-tag email">Email</span></div>
+              <div class="step-title">Reframe pattern as still-relevant</div>
+              <div class="step-copy">"The patterns you were noticing haven't gone anywhere either"</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="window-marker">
+          <span class="window-marker-label">Quarter 3 · One-time soft escalation</span>
+          <span class="window-marker-tone">Personal channel, not a campaign</span>
+        </div>
+        <div class="flow">
+          <div class="step email">
+            <div class="step-dot">3</div>
+            <div class="step-body">
+              <div class="step-meta"><span>Q3 · Email 03</span><span class="channel-tag email">Email</span></div>
+              <div class="step-title">Hand-written or community invite</div>
+              <div class="step-copy">"Want early access to what we're building next?"</div>
+              <div class="step-note">Per source doc — this segment is worth one-time human outreach. Consider routing to founder or product lead for personal send.</div>
+            </div>
+          </div>
+          <div class="step push">
+            <div class="step-dot">◉</div>
+            <div class="step-body">
+              <div class="step-meta"><span>Q3 · 3 days after email</span><span class="channel-tag push">Push</span></div>
+              <div class="step-title">Light follow-up to escalation</div>
+              <div class="step-copy">"The invite's still open"</div>
+              <div class="step-note">Only sent if email was opened but not replied to.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="window-marker">
+          <span class="window-marker-label">Quarter 4 · Year-mark check-in</span>
+          <span class="window-marker-tone">Reflective, not closing the door</span>
+        </div>
+        <div class="flow">
+          <div class="step email">
+            <div class="step-dot">4</div>
+            <div class="step-body">
+              <div class="step-meta"><span>Q4 · Email 04</span><span class="channel-tag email">Email</span></div>
+              <div class="step-title">Honor the year without pressure</div>
+              <div class="step-copy">"A year ago, you were noticing something. We thought of you."</div>
+              <div class="step-note">If no engagement after Q4, reduce to annual single email going forward. Do not fully suppress — these are the most recoverable dormant users.</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="branch">
+          <div class="branch-label">Exit triggers (any of these end the track immediately)</div>
+          <div class="branch-row">
+            <div class="branch-trigger">App reopened</div>
+            <div class="branch-action">Exit nurture. Pull back into active Re-engagement Segment C at the 60+ day deeper reset window. Reference the time gap honestly.</div>
+          </div>
+          <div class="branch-row">
+            <div class="branch-trigger">New entry recorded</div>
+            <div class="branch-action">Exit nurture immediately. Move to Activation Failure State B for the next 48 hours. After that, treat as fresh Habit Formation Segment A.</div>
+          </div>
+          <div class="branch-row">
+            <div class="branch-trigger">Past entry revisited</div>
+            <div class="branch-action">Exit nurture. Trigger Re-engagement Segment C revisit follow-up: "There's still something forming here."</div>
+          </div>
+          <div class="branch-row">
+            <div class="branch-trigger">Replies to Q3 escalation email</div>
+            <div class="branch-action">Exit nurture. Route to founder/product team for personal conversation. Treat as high-priority recovery.</div>
+          </div>
+          <div class="branch-row">
+            <div class="branch-trigger">Opens email but no other signal</div>
+            <div class="branch-action">Stay in track. Permit the next push send. Do not escalate cadence.</div>
+          </div>
+        </div>
+
+        <div class="fail">
+          <div class="fail-label">End state · No engagement after Q4</div>
+          <ul class="fail-list">
+            <li>Reduce to one email per year going forward — anniversary check-in only</li>
+            <li>Do not fully suppress — this segment has the highest recovery value of any nurture user</li>
+            <li>Re-evaluate annually for paid retargeting on original acquisition channel</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     PLACEHOLDERS FOR STAGES NOT YET DEFINED
+     ============================================================ -->
+<!-- ============================================================
+     STAGE 02 · ACTIVATION
+     ============================================================ -->
+<div class="stage" data-stage="activation">
+  <div class="container">
+    <div class="header">
+      <div class="eyebrow">Stage 02 · Activation</div>
+      <h1>This only works if you come back to it</h1>
+      <p class="sub">First 7 days after signup. Move from first interaction to early continuity. 4–6 emails total, push for app users.</p>
+      <p class="tone-note">Direct and actionable. Acknowledge actions, not inner content.</p>
+    </div>
+
+    <!-- Habit loop visualization -->
+    <div class="loop-block">
+      <div class="loop-header">
+        <div class="loop-eyebrow">The Mindflow habit loop</div>
+        <div class="loop-title">Reflect → Understand → Reframe → Reset → Rest</div>
+        <p class="loop-sub">Introduced in Activation. Reinforced through every stage that follows.</p>
+      </div>
+      <div class="loop-row">
+        <div class="loop-step">
+          <span class="loop-step-num">01</span>
+          <span class="loop-step-name">Reflect</span>
+          <span class="loop-step-desc">Capture what's present, without filtering</span>
+        </div>
+        <div class="loop-arrow">→</div>
+        <div class="loop-step">
+          <span class="loop-step-num">02</span>
+          <span class="loop-step-name">Understand</span>
+          <span class="loop-step-desc">Return to what was captured. See it with distance.</span>
+        </div>
+        <div class="loop-arrow">→</div>
+        <div class="loop-step">
+          <span class="loop-step-num">03</span>
+          <span class="loop-step-name">Reframe</span>
+          <span class="loop-step-desc">Place it in a broader context. Notice connection.</span>
+        </div>
+        <div class="loop-arrow">→</div>
+        <div class="loop-step">
+          <span class="loop-step-num">04</span>
+          <span class="loop-step-name">Reset</span>
+          <span class="loop-step-desc">Create space between recognition and reaction</span>
+        </div>
+        <div class="loop-arrow">→</div>
+        <div class="loop-step">
+          <span class="loop-step-num">05</span>
+          <span class="loop-step-name">Rest</span>
+          <span class="loop-step-desc">Let the process continue without forcing it</span>
+        </div>
+      </div>
+      <div class="loop-return">↻ The loop continues. Clarity builds through repetition, not pressure.</div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item">
+        <span class="legend-swatch email"></span>
+        <span>Email</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-swatch push"></span>
+        <span>Push notification (app users only)</span>
+      </div>
+    </div>
+
+    <div class="tabs" data-scope="activation">
+      <button class="tab active" data-panel="seg-a">Segment A · No entries <span class="tab-count">3 emails · 2 pushes</span></button>
+      <button class="tab" data-panel="seg-b">Segment B · One entry, no return <span class="tab-count">2 emails · 2 pushes</span></button>
+      <button class="tab" data-panel="seg-c">Segment C · Returned, no second entry <span class="tab-count">2 emails · 2 pushes</span></button>
+      <button class="tab" data-panel="seg-d">Segment D · Two+ entries <span class="tab-count">2 emails · 1 push</span></button>
+    </div>
+
+    <!-- ===================== SEGMENT A ===================== -->
+    <div class="panel active" data-panel="seg-a">
+      <div class="meta-grid">
+        <div class="meta">
+          <div class="meta-label">Audience</div>
+          <div class="meta-value">Account created, no entries yet. The most fragile state in Activation.</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Focus</div>
+          <div class="meta-value">Reduce friction. Immediacy. One sentence is enough.</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Exit condition</div>
+          <div class="meta-value">Records first entry → moves to Segment B</div>
+        </div>
+      </div>
+
+      <div class="section-label">Sequence</div>
+      <div class="flow">
+        <div class="step entry">
+          <div class="step-dot">◐</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 0 · Entry</span></div>
+            <div class="step-title">Account created. No first entry yet.</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">1</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 0 · Within 1 hour · Email 01</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Welcome and frame the first step</div>
+            <div class="step-copy">"Record it before it fades"</div>
+            <div class="step-pillar">Reflect</div>
+          </div>
+        </div>
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 1 · Morning</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Lower the friction further</div>
+            <div class="step-copy">"Say one sentence. That's enough."</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">2</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 2 · Email 02</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Permission for incomplete entries</div>
+            <div class="step-copy">"Just say what you remember"</div>
+            <div class="step-pillar">Reflect</div>
+          </div>
+        </div>
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 4 · Evening</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Smallest possible ask</div>
+            <div class="step-copy">"One sentence. That's all."</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">3</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 6 · Email 03 · Final</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Last active prompt before Re-engagement</div>
+            <div class="step-copy">"This only works if you come back to it"</div>
+            <div class="step-pillar">Reflect</div>
+            <div class="step-note">If no entry by Day 7, transition to Re-engagement Segment A (Early Drop-Off).</div>
+          </div>
+        </div>
+        <div class="step exit">
+          <div class="step-dot">✓</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Exit</span></div>
+            <div class="step-title">First entry recorded → moves to Segment B</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="branch">
+        <div class="branch-label">Behavioral branches</div>
+        <div class="branch-row">
+          <div class="branch-trigger">App opened, no entry</div>
+          <div class="branch-action">Trigger in-app push within session: "Record what you remember, even if it's unclear." Hold next scheduled email for 24 hours.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Email opened, no app open</div>
+          <div class="branch-action">Trigger push within 24 hours with smallest possible ask. Suppress next email for 48 hours to avoid noise.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">First entry recorded</div>
+          <div class="branch-action">Exit Segment A immediately. Move to Segment B messaging within 24 hours.</div>
+        </div>
+      </div>
+
+      <div class="fail">
+        <div class="fail-label">Failure state · No entry by Day 7</div>
+        <ul class="fail-list">
+          <li>Transition to Re-engagement Segment A (Early Drop-Off)</li>
+          <li>Suppress further Activation emails</li>
+          <li>Push frequency reduced to one per inactivity window</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===================== SEGMENT B ===================== -->
+    <div class="panel" data-panel="seg-b">
+      <div class="meta-grid">
+        <div class="meta">
+          <div class="meta-label">Audience</div>
+          <div class="meta-value">One entry recorded, no return session. The most common stall point.</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Focus</div>
+          <div class="meta-value">Reframe first entry as incomplete without a second touchpoint. Prompt revisit.</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Exit condition</div>
+          <div class="meta-value">Return session within 48 hours → moves to Segment C</div>
+        </div>
+      </div>
+
+      <div class="section-label">Sequence</div>
+      <div class="flow">
+        <div class="step entry">
+          <div class="step-dot">◐</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 0 · Entry into segment</span></div>
+            <div class="step-title">First entry recorded. No return yet.</div>
+          </div>
+        </div>
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>+24 hours · Morning</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Prompt the revisit, gently</div>
+            <div class="step-copy">"Take another look at what you wrote"</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">1</div>
+          <div class="step-body">
+            <div class="step-meta"><span>+36 hours · Email 01</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Make returning feel natural</div>
+            <div class="step-copy">"Open what you wrote yesterday"</div>
+            <div class="step-pillar">Understand</div>
+          </div>
+        </div>
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>+48 hours · Evening</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Reframe value as connection</div>
+            <div class="step-copy">"This is where it starts to connect"</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">2</div>
+          <div class="step-body">
+            <div class="step-meta"><span>+72 hours · Email 02 · Final</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Name the mechanic directly</div>
+            <div class="step-copy">"This only works if you come back to it"</div>
+            <div class="step-pillar">Understand</div>
+            <div class="step-note">If no return by Day 7 total, transition to Re-engagement Segment A.</div>
+          </div>
+        </div>
+        <div class="step exit">
+          <div class="step-dot">✓</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Exit</span></div>
+            <div class="step-title">Return session → moves to Segment C</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="branch">
+        <div class="branch-label">Behavioral branches</div>
+        <div class="branch-row">
+          <div class="branch-trigger">App opened (return session)</div>
+          <div class="branch-action">Exit Segment B. Trigger Segment C messaging within session if no second entry yet.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Second entry without revisit</div>
+          <div class="branch-action">Exit to Segment D. Note: user skipped the revisit step — next email should explicitly invite looking back.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Push opened, no app return</div>
+          <div class="branch-action">Suppress next push for 48 hours. Continue with scheduled email.</div>
+        </div>
+      </div>
+
+      <div class="fail">
+        <div class="fail-label">Failure state · No return after 72 hours</div>
+        <ul class="fail-list">
+          <li>Transition to Re-engagement Segment A (Early Drop-Off)</li>
+          <li>Treat the recorded entry as the foundation to return to in future messaging</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===================== SEGMENT C ===================== -->
+    <div class="panel" data-panel="seg-c">
+      <div class="meta-grid">
+        <div class="meta">
+          <div class="meta-label">Audience</div>
+          <div class="meta-value">Returned to the app after first entry but hasn't added a second entry.</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Focus</div>
+          <div class="meta-value">Reinforce continuity. Normalize low-effort entries. Push toward the second action.</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Exit condition</div>
+          <div class="meta-value">Second entry across separate session → moves to Segment D</div>
+        </div>
+      </div>
+
+      <div class="section-label">Sequence</div>
+      <div class="flow">
+        <div class="step entry">
+          <div class="step-dot">◐</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 0 · Entry into segment</span></div>
+            <div class="step-title">User returned. One entry on record. No second entry yet.</div>
+          </div>
+        </div>
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>+12 hours · In-session or shortly after</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Lock in the second action quickly</div>
+            <div class="step-copy">"Add one more, even if it's small"</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">1</div>
+          <div class="step-body">
+            <div class="step-meta"><span>+24 hours · Email 01</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Frame second entry as the real start</div>
+            <div class="step-copy">"This is where it starts to connect"</div>
+            <div class="step-pillar">Reflect → Understand</div>
+          </div>
+        </div>
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>+48 hours · Evening</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Reduce friction one more time</div>
+            <div class="step-copy">"30 seconds. Whatever's here."</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">2</div>
+          <div class="step-body">
+            <div class="step-meta"><span>+72 hours · Email 02 · Final</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Reinforce continuity is the mechanic</div>
+            <div class="step-copy">"You've already started something"</div>
+            <div class="step-pillar">Reframe</div>
+            <div class="step-note">If no second entry by Day 7 total, this user is in Partial Activation Stall. Transition to Re-engagement Segment A or B based on prior return behavior.</div>
+          </div>
+        </div>
+        <div class="step exit">
+          <div class="step-dot">✓</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Exit</span></div>
+            <div class="step-title">Second entry recorded across sessions → moves to Segment D</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="branch">
+        <div class="branch-label">Behavioral branches</div>
+        <div class="branch-row">
+          <div class="branch-trigger">Past entry revisited (no new entry)</div>
+          <div class="branch-action">In-app push: "Now add what's on your mind today." Keep scheduled email but soften tone.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Second entry recorded</div>
+          <div class="branch-action">Exit immediately to Segment D. Trigger Segment D welcome push within 24 hours.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Multiple returns, no new entry</div>
+          <div class="branch-action">Light pattern framing: "You've come back. That's the part most people skip." Then prompt smallest ask.</div>
+        </div>
+      </div>
+
+      <div class="fail">
+        <div class="fail-label">Failure state · No second entry by Day 7</div>
+        <ul class="fail-list">
+          <li>Flag as Partial Activation Stall</li>
+          <li>Transition to Re-engagement Segment A (Early Drop-Off) — they completed half of activation</li>
+          <li>Future messaging should explicitly reference the one entry they did record</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===================== SEGMENT D ===================== -->
+    <div class="panel" data-panel="seg-d">
+      <div class="meta-grid">
+        <div class="meta">
+          <div class="meta-label">Audience</div>
+          <div class="meta-value">Two or more entries across separate sessions. Activation loop functionally complete.</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Focus</div>
+          <div class="meta-value">Acknowledge what's working. Set up the transition to Habit Formation without overpromising.</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Exit condition</div>
+          <div class="meta-value">Activity across multiple days → moves to Habit Formation stage</div>
+        </div>
+      </div>
+
+      <div class="section-label">Sequence</div>
+      <div class="flow">
+        <div class="step entry">
+          <div class="step-dot">◐</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Day 0 · Entry into segment</span></div>
+            <div class="step-title">Two+ entries across sessions. Activation loop confirmed.</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">1</div>
+          <div class="step-body">
+            <div class="step-meta"><span>+24 hours · Email 01</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Name what they've done without inflating it</div>
+            <div class="step-copy">"You've been coming back. That's the part that matters."</div>
+            <div class="step-pillar">Understand</div>
+          </div>
+        </div>
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>+48 hours · Morning</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Reinforce the pattern in their behavior</div>
+            <div class="step-copy">"This is how it starts to work"</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">2</div>
+          <div class="step-body">
+            <div class="step-meta"><span>End of Day 7 · Email 02 · Transition</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Bridge to Habit Formation without ceremony</div>
+            <div class="step-copy">"Keep going. The shape comes later."</div>
+            <div class="step-pillar">Rest</div>
+            <div class="step-note">Hands off to Habit Formation messaging starting Week 2.</div>
+          </div>
+        </div>
+        <div class="step exit">
+          <div class="step-dot">✓</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Exit</span></div>
+            <div class="step-title">Activity across multiple days → moves to Habit Formation</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="branch">
+        <div class="branch-label">Behavioral branches</div>
+        <div class="branch-row">
+          <div class="branch-trigger">Revisits a previous entry independently</div>
+          <div class="branch-action">Trigger light push acknowledging the revisit behavior. Begin priming pattern recognition language ahead of Habit Formation.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">High frequency (3+ entries in 7 days)</div>
+          <div class="branch-action">Accelerate transition to Habit Formation. Skip the Day 7 transition email. Move to Habit Formation Segment B or C.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Activity drops mid-week</div>
+          <div class="branch-action">Hold transition email. Trigger Segment B-style revisit push: "Open what you wrote earlier." Resume schedule if return.</div>
+        </div>
+      </div>
+
+      <div class="fail">
+        <div class="fail-label">Failure state · Drops off before Day 7 transition</div>
+        <ul class="fail-list">
+          <li>Transition to Re-engagement Segment B (Activated but Churned)</li>
+          <li>Reference their two-entry foundation in future messaging</li>
+          <li>This is a more recoverable churn than Segment A or B — prior continuity is the lever</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================
+     STAGE 03 · HABIT FORMATION
+     ============================================================ -->
+<div class="stage" data-stage="habit">
+  <div class="container">
+    <div class="header">
+      <div class="eyebrow">Stage 03 · Habit Formation</div>
+      <h1>What keeps coming back is where meaning lives</h1>
+      <p class="sub">Weeks 2–6. Establish a repeatable behavior. Capture, revisit, and notice what shows up more than once.</p>
+      <p class="tone-note">Reinforce behavior that's already happening. Reflect patterns in behavior, not content.</p>
+    </div>
+
+    <div class="loop-ribbon">
+      <span class="loop-ribbon-label">The loop</span>
+      <span class="loop-ribbon-flow">Reflect → Understand → Reframe → Reset → Rest</span>
+      <span class="loop-ribbon-note">Reinforced through repetition, not re-taught</span>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item">
+        <span class="legend-swatch email"></span>
+        <span>Email (weekly cadence)</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-swatch push"></span>
+        <span>Push notification (behavioral)</span>
+      </div>
+      <div class="legend-item">
+        <span class="legend-swatch window"></span>
+        <span>Week marker</span>
+      </div>
+    </div>
+
+    <div class="tabs" data-scope="habit">
+      <button class="tab active" data-panel="seg-a">Segment A · Light users <span class="tab-count">5 emails · 3 pushes</span></button>
+      <button class="tab" data-panel="seg-b">Segment B · Consistent users <span class="tab-count">5 emails · 4 pushes</span></button>
+      <button class="tab" data-panel="seg-c">Segment C · Highly engaged <span class="tab-count">5 emails · 3 pushes</span></button>
+      <button class="tab" data-panel="seg-d">Segment D · Capture without revisit <span class="tab-count">5 emails · 4 pushes</span></button>
+    </div>
+
+    <!-- ===================== SEGMENT A · LIGHT ===================== -->
+    <div class="panel active" data-panel="seg-a">
+      <div class="meta-grid">
+        <div class="meta">
+          <div class="meta-label">Audience</div>
+          <div class="meta-value">1–2 entries per week. Engaged but inconsistent.</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Focus</div>
+          <div class="meta-value">Reduce pressure. Reinforce that consistency matters more than depth.</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Exit condition</div>
+          <div class="meta-value">Engages with the loop naturally without prompting</div>
+        </div>
+      </div>
+
+      <div class="section-label">Five-week sequence</div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">Week 2 · Reflect</span>
+        <span class="window-marker-tone">Acknowledge what's already happening</span>
+      </div>
+      <div class="flow">
+        <div class="step email">
+          <div class="step-dot">1</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Week 2 · Email 01</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Lower the bar, raise the cadence</div>
+            <div class="step-copy">"You don't need a perfect entry"</div>
+            <div class="step-pillar">Reflect</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">Week 3 · Reflect</span>
+        <span class="window-marker-tone">Capture is the only step that matters this week</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Mid-week · Morning</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">In-the-moment capture prompt</div>
+            <div class="step-copy">"Log what stuck with you today"</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">2</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Week 3 · Email 02</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Normalize variability</div>
+            <div class="step-copy">"Some weeks have less. That's still the work."</div>
+            <div class="step-pillar">Reflect</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">Week 4 · Understand</span>
+        <span class="window-marker-tone">Introduce the revisit gently</span>
+      </div>
+      <div class="flow">
+        <div class="step email">
+          <div class="step-dot">3</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Week 4 · Email 03</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Invite revisiting for the first time</div>
+            <div class="step-copy">"Look back at what you wrote earlier this week"</div>
+            <div class="step-pillar">Understand</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">Week 5 · Understand</span>
+        <span class="window-marker-tone">Connect entries without forcing it</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>After new entry · Same day</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">In-context revisit prompt</div>
+            <div class="step-copy">"There might be something familiar here"</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">4</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Week 5 · Email 04</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Light pattern framing</div>
+            <div class="step-copy">"Have you seen this before?"</div>
+            <div class="step-pillar">Understand</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">Week 6 · Reframe</span>
+        <span class="window-marker-tone">First mention of patterns</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Mid-week · Evening</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Gentle pattern surfacing</div>
+            <div class="step-copy">"You've written about this before"</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">5</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Week 6 · Email 05 · Transition</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Bridge to Deep Engagement</div>
+            <div class="step-copy">"This is starting to add up"</div>
+            <div class="step-pillar">Reframe</div>
+            <div class="step-note">If exit conditions met, hands off to Deep Engagement.</div>
+          </div>
+        </div>
+        <div class="step exit">
+          <div class="step-dot">✓</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Exit</span></div>
+            <div class="step-title">Engages with loop naturally → moves to Deep Engagement</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="branch">
+        <div class="branch-label">Behavioral branches</div>
+        <div class="branch-row">
+          <div class="branch-trigger">Activity increases to 3+ entries/week</div>
+          <div class="branch-action">Promote to Segment B mid-stage. Skip remaining lighter-touch emails, pick up Segment B at current week.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Drops to 0 entries in a week</div>
+          <div class="branch-action">Trigger soft check-in push. Hold next email for 48 hours. If no return by following week, escalate to Re-engagement Segment B.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Revisits past entry independently</div>
+          <div class="branch-action">Skip scheduled "invite to revisit" email. Move directly to pattern-recognition framing.</div>
+        </div>
+      </div>
+
+      <div class="fail">
+        <div class="fail-label">Failure state · Drop in consistency below 1 entry per week</div>
+        <ul class="fail-list">
+          <li>Reduce email pressure. Suppress push for one week.</li>
+          <li>If no return for 14 days, transition to Re-engagement Segment B (Activated but Churned)</li>
+          <li>Reinforce: low-effort capture is acceptable. Anything is enough.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===================== SEGMENT B · CONSISTENT ===================== -->
+    <div class="panel" data-panel="seg-b">
+      <div class="meta-grid">
+        <div class="meta">
+          <div class="meta-label">Audience</div>
+          <div class="meta-value">3–4 entries per week. Habit is forming.</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Focus</div>
+          <div class="meta-value">Reinforce consistency. Begin surfacing light pattern recognition.</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Exit condition</div>
+          <div class="meta-value">Independently revisits past entries and recognizes repetition</div>
+        </div>
+      </div>
+
+      <div class="section-label">Five-week sequence</div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">Week 2 · Reflect</span>
+        <span class="window-marker-tone">Acknowledge the rhythm</span>
+      </div>
+      <div class="flow">
+        <div class="step email">
+          <div class="step-dot">1</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Week 2 · Email 01</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Name the rhythm they've built</div>
+            <div class="step-copy">"You've been coming back this week"</div>
+            <div class="step-pillar">Reflect</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">Week 3 · Understand</span>
+        <span class="window-marker-tone">Introduce the revisit</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Mid-week · Evening</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Invite revisiting in-app</div>
+            <div class="step-copy">"Look back at this week"</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">2</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Week 3 · Email 02</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Frame revisiting as the next step</div>
+            <div class="step-copy">"You've logged a few entries. Now look back."</div>
+            <div class="step-pillar">Understand</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">Week 4 · Understand</span>
+        <span class="window-marker-tone">Make familiarity visible</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>After new entry</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Surface possible repetition</div>
+            <div class="step-copy">"There might be something familiar here"</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">3</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Week 4 · Email 03</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">First explicit pattern mention</div>
+            <div class="step-copy">"This has come up before"</div>
+            <div class="step-pillar">Understand → Reframe</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">Week 5 · Reframe</span>
+        <span class="window-marker-tone">Name the connection</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Mid-week · Morning</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Pattern-recognition prompt</div>
+            <div class="step-copy">"You're starting to see a pattern"</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">4</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Week 5 · Email 04</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Strengthen connection across entries</div>
+            <div class="step-copy">"Two weeks of entries are starting to talk to each other"</div>
+            <div class="step-pillar">Reframe</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">Week 6 · Reframe → Reset</span>
+        <span class="window-marker-tone">Transition to Deep Engagement</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>End of week</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Acknowledge the shift</div>
+            <div class="step-copy">"This is how it starts to come together"</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">5</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Week 6 · Email 05 · Transition</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Bridge to long-term view</div>
+            <div class="step-copy">"You've built something. Now look at it together."</div>
+            <div class="step-pillar">Reframe</div>
+          </div>
+        </div>
+        <div class="step exit">
+          <div class="step-dot">✓</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Exit</span></div>
+            <div class="step-title">Independently revisits and recognizes patterns → Deep Engagement</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="branch">
+        <div class="branch-label">Behavioral branches</div>
+        <div class="branch-row">
+          <div class="branch-trigger">Frequency increases (daily entries)</div>
+          <div class="branch-action">Promote to Segment C messaging starting next week. Increase emphasis on the Dream Library.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Stops revisiting after Week 3 intro</div>
+          <div class="branch-action">Reroute to Segment D (Capture without revisit) messaging. Maintain weekly cadence but shift focus entirely to the revisit ask.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Drops below 2 entries in a week</div>
+          <div class="branch-action">Demote to Segment A messaging temporarily. Resume Segment B when activity returns.</div>
+        </div>
+      </div>
+
+      <div class="fail">
+        <div class="fail-label">Failure state · Capture without revisit (persistent)</div>
+        <ul class="fail-list">
+          <li>Reroute to Segment D for the remaining weeks</li>
+          <li>Shift focus entirely to revisiting and the Dream Library</li>
+          <li>If pattern continues into Deep Engagement, flag as a structural retention risk</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===================== SEGMENT C · HIGHLY ENGAGED ===================== -->
+    <div class="panel" data-panel="seg-c">
+      <div class="meta-grid">
+        <div class="meta">
+          <div class="meta-label">Audience</div>
+          <div class="meta-value">Frequent or daily entries. Strongest signal in Habit Formation.</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Focus</div>
+          <div class="meta-value">Don't over-prompt. Match their rhythm. Begin surfacing structural patterns.</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Exit condition</div>
+          <div class="meta-value">Connects past and present entries independently</div>
+        </div>
+      </div>
+
+      <div class="section-label">Five-week sequence</div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">Week 2 · Reflect</span>
+        <span class="window-marker-tone">Minimal touch. Don't interrupt the rhythm.</span>
+      </div>
+      <div class="flow">
+        <div class="step email">
+          <div class="step-dot">1</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Week 2 · Email 01</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Acknowledge frequency, then step back</div>
+            <div class="step-copy">"You've made this a part of your week"</div>
+            <div class="step-pillar">Reflect</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">Week 3 · Understand</span>
+        <span class="window-marker-tone">Surface the library, not the prompt</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>End of week</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Direct to the Dream Library</div>
+            <div class="step-copy">"There's a week's worth here. Take a look."</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">2</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Week 3 · Email 02</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Frame what they've built</div>
+            <div class="step-copy">"You've already got a library forming"</div>
+            <div class="step-pillar">Understand</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">Week 4 · Reframe</span>
+        <span class="window-marker-tone">Pattern recognition starts here</span>
+      </div>
+      <div class="flow">
+        <div class="step email">
+          <div class="step-dot">3</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Week 4 · Email 03</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Surface emerging repetition</div>
+            <div class="step-copy">"Something has started to repeat"</div>
+            <div class="step-pillar">Reframe</div>
+            <div class="step-note">This is the email referenced in the source doc — 30-day pattern surfacing.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">Week 5 · Reframe</span>
+        <span class="window-marker-tone">Make the structure visible</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Mid-week</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">In-context pattern hint</div>
+            <div class="step-copy">"This connects to last week"</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">4</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Week 5 · Email 04</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Highlight what's emerging</div>
+            <div class="step-copy">"The patterns you can't see day-to-day. Mindflow sees them for you."</div>
+            <div class="step-pillar">Reframe</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">Week 6 · Reset</span>
+        <span class="window-marker-tone">Hand off to Deep Engagement</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>End of week</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Final reinforcement before transition</div>
+            <div class="step-copy">"You're not just logging anymore"</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">5</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Week 6 · Email 05 · Transition</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Bridge to longer timeframes</div>
+            <div class="step-copy">"This is the shape of your last month"</div>
+            <div class="step-pillar">Reset</div>
+          </div>
+        </div>
+        <div class="step exit">
+          <div class="step-dot">✓</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Exit</span></div>
+            <div class="step-title">Connects past and present independently → Deep Engagement</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="branch">
+        <div class="branch-label">Behavioral branches</div>
+        <div class="branch-row">
+          <div class="branch-trigger">High Dream Library engagement</div>
+          <div class="branch-action">Accelerate transition to Deep Engagement. May exit by Week 5.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Logs without revisiting (any week)</div>
+          <div class="branch-action">Override scheduled push. Send: "There's a week's worth here. Take a look." Reduce emails to focus on revisit framing.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Frequency drops sharply (≥40%)</div>
+          <div class="branch-action">Demote to Segment B messaging. Possible burnout — reduce push frequency until activity restabilizes.</div>
+        </div>
+      </div>
+
+      <div class="fail">
+        <div class="fail-label">Failure state · Burnout (sharp frequency drop)</div>
+        <ul class="fail-list">
+          <li>Suspend push notifications for one week</li>
+          <li>Send one low-pressure email: "Not every week needs to be like the last one"</li>
+          <li>If drop continues, transition to Re-engagement Segment C (Previously Highly Engaged)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===================== SEGMENT D · CAPTURE WITHOUT REVISIT ===================== -->
+    <div class="panel" data-panel="seg-d">
+      <div class="meta-grid">
+        <div class="meta">
+          <div class="meta-label">Audience</div>
+          <div class="meta-value">Logs entries consistently but never (or rarely) revisits past entries.</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Focus</div>
+          <div class="meta-value">Shift focus entirely to revisiting. Value comes from looking back, not just adding.</div>
+        </div>
+        <div class="meta">
+          <div class="meta-label">Exit condition</div>
+          <div class="meta-value">Begins revisiting past entries independently</div>
+        </div>
+      </div>
+
+      <div class="section-label">Five-week sequence</div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">Week 2 · Understand</span>
+        <span class="window-marker-tone">Name what's missing without scolding</span>
+      </div>
+      <div class="flow">
+        <div class="step email">
+          <div class="step-dot">1</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Week 2 · Email 01</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Reframe value</div>
+            <div class="step-copy">"The entries are only half of it"</div>
+            <div class="step-pillar">Understand</div>
+          </div>
+        </div>
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>After entry · Same day</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">In-context revisit ask</div>
+            <div class="step-copy">"Open the one from yesterday"</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">Week 3 · Understand</span>
+        <span class="window-marker-tone">Make revisit feel easy</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Mid-week · Evening</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Lowest-effort revisit prompt</div>
+            <div class="step-copy">"Just open it. Don't add anything."</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">2</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Week 3 · Email 02</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Name the mechanic</div>
+            <div class="step-copy">"This only works if you come back to it"</div>
+            <div class="step-pillar">Understand</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">Week 4 · Understand</span>
+        <span class="window-marker-tone">Surface the Dream Library directly</span>
+      </div>
+      <div class="flow">
+        <div class="step email">
+          <div class="step-dot">3</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Week 4 · Email 03</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Point at the artifact</div>
+            <div class="step-copy">"You've built a library. You haven't opened it yet."</div>
+            <div class="step-pillar">Understand</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">Week 5 · Understand → Reframe</span>
+        <span class="window-marker-tone">Last attempt before structural rerouting</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Start of week · Morning</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Direct ask</div>
+            <div class="step-copy">"Open one. Any one."</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">4</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Week 5 · Email 04</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Pattern-tease without revisit</div>
+            <div class="step-copy">"Something has started to repeat. You'd notice if you looked."</div>
+            <div class="step-pillar">Reframe</div>
+            <div class="step-note">Pointed by design. Honors the "Don't look away" brand value.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="window-marker">
+        <span class="window-marker-label">Week 6 · Reframe</span>
+        <span class="window-marker-tone">Final framing before Deep Engagement decision</span>
+      </div>
+      <div class="flow">
+        <div class="step push">
+          <div class="step-dot">◉</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Mid-week</span><span class="channel-tag push">Push</span></div>
+            <div class="step-title">Last in-context prompt</div>
+            <div class="step-copy">"The shape is already there"</div>
+          </div>
+        </div>
+        <div class="step email">
+          <div class="step-dot">5</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Week 6 · Email 05 · Transition</span><span class="channel-tag email">Email</span></div>
+            <div class="step-title">Hand off — but flag for Deep Engagement</div>
+            <div class="step-copy">"You've got the entries. The next step is looking at them."</div>
+            <div class="step-pillar">Reframe</div>
+            <div class="step-note">User exits to Deep Engagement Failure State A (High capture, low reflection) if pattern continues.</div>
+          </div>
+        </div>
+        <div class="step exit">
+          <div class="step-dot">✓</div>
+          <div class="step-body">
+            <div class="step-meta"><span>Exit</span></div>
+            <div class="step-title">Begins revisiting independently → Segment B or Deep Engagement</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="branch">
+        <div class="branch-label">Behavioral branches</div>
+        <div class="branch-row">
+          <div class="branch-trigger">Opens past entry (any)</div>
+          <div class="branch-action">Exit Segment D immediately. Move to Segment B messaging. Trigger reinforcing push within 24 hours.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Capture frequency increases</div>
+          <div class="branch-action">Do not promote to higher segment. More capture without revisit deepens the problem.</div>
+        </div>
+        <div class="branch-row">
+          <div class="branch-trigger">Opens revisit push but doesn't engage</div>
+          <div class="branch-action">Lower the bar further: "Open one. Close it. That's enough." Suppress next email for 48 hours.</div>
+        </div>
+      </div>
+
+      <div class="fail">
+        <div class="fail-label">Failure state · No revisit through Week 6</div>
+        <ul class="fail-list">
+          <li>Transition to Deep Engagement Failure State A (High capture, low reflection)</li>
+          <li>Shift focus entirely to the Dream Library</li>
+          <li>If unresolved through Deep Engagement, flag as structural retention risk — the user may have misunderstood the product</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="stage" data-stage="deep">
+  <div class="container">
+    <div class="placeholder">
+      <div class="placeholder-icon">◌</div>
+      <div class="placeholder-title">Deep engagement stage</div>
+      <div class="placeholder-text">This stage hasn't been defined yet. It will cover users active 30+ days, biweekly or monthly cadence, and four engagement segments.</div>
+    </div>
+  </div>
+</div>
+
+<div class="stage" data-stage="advocacy">
+  <div class="container">
+    <div class="placeholder">
+      <div class="placeholder-icon">◌</div>
+      <div class="placeholder-title">Advocacy stage</div>
+      <div class="placeholder-text">This stage hasn't been defined yet. It will cover users active 60+ days, monthly or event-triggered cadence, and pathways to reviews, referrals, and ambassador programs.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // Stage selector
+  document.getElementById('stage-selector').addEventListener('click', function(e) {
+    var btn = e.target.closest('.stage-btn');
+    if (!btn || btn.classList.contains('stage-btn-disabled')) return;
+    var key = btn.getAttribute('data-stage');
+    document.querySelectorAll('.stage-btn').forEach(function(b) {
+      b.classList.toggle('active', b === btn);
+    });
+    document.querySelectorAll('.stage').forEach(function(s) {
+      s.classList.toggle('active', s.getAttribute('data-stage') === key);
+    });
+    // Scroll back to top of stage
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+
+  // Segment sub-tabs (scoped per stage)
+  document.querySelectorAll('.tabs').forEach(function(tabGroup) {
+    tabGroup.addEventListener('click', function(e) {
+      var btn = e.target.closest('.tab');
+      if (!btn) return;
+      var key = btn.getAttribute('data-panel');
+      var scope = tabGroup.getAttribute('data-scope');
+      var parentStage = tabGroup.closest('.stage');
+      parentStage.querySelectorAll('.tab').forEach(function(t) {
+        t.classList.toggle('active', t === btn);
+      });
+      parentStage.querySelectorAll('.panel').forEach(function(p) {
+        p.classList.toggle('active', p.getAttribute('data-panel') === key);
+      });
+    });
+  });
+</script>
+</body>
+</html>

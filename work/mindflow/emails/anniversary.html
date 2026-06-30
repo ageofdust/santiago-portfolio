@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+
+<meta charset="utf-8">
+<title>MindFlow · One year in</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+
+<style>
+  :root {
+    --paper: #f0eee9;
+    --card: #fbf8f2;
+    --card-edge: #ebe5d6;
+    --ink: #1e1735;
+    --ink-soft: #4a3f6e;
+    --ink-dim: #6a6383;
+    --rule: #e6dfcf;
+    --lavender: #6B57C8;
+    --lavender-soft: #7866C8;
+    --peach: #F2B197;
+    --gold: #c79a5b;
+    --dream: #2a1654;
+  }
+  html, body {
+    margin: 0; padding: 0; background: var(--paper);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, Arial, sans-serif;
+    color: var(--ink);
+    -webkit-font-smoothing: antialiased;
+  }
+  .viewer {
+    min-height: 100vh;
+    padding: 56px 24px 96px;
+    display: flex;
+    justify-content: center;
+  }
+  .envelope {
+    width: 100%;
+    max-width: 640px;
+  }
+
+  /* ── client chrome (subject + from line) ──────────────────────────── */
+  .meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 0 6px 22px;
+    color: var(--ink-dim);
+    font-size: 13px;
+    letter-spacing: 0.02em;
+  }
+  .meta .from {
+    display: flex; align-items: center; gap: 10px;
+    color: var(--ink);
+  }
+  .avatar {
+    width: 30px; height: 30px; border-radius: 999px;
+    background: linear-gradient(150deg, #2a1654 0%, #6B57C8 100%);
+    color: #fff;
+    display: grid; place-items: center;
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 16px;
+    font-weight: 500;
+  }
+  .meta .dot { width: 3px; height: 3px; border-radius: 999px; background: var(--ink-dim); opacity: 0.5; }
+  .meta .subject {
+    flex: 1;
+    text-align: right;
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 15px;
+    color: var(--ink-soft);
+  }
+
+  /* ── the card ─────────────────────────────────────────────────────── */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-edge);
+    border-radius: 6px;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.6) inset,
+      0 12px 32px -16px rgba(42, 22, 84, 0.18),
+      0 2px 6px rgba(42, 22, 84, 0.06);
+    overflow: hidden;
+  }
+
+  /* masthead */
+  .masthead {
+    padding: 40px 56px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .wordmark {
+    display: flex; align-items: center; gap: 12px;
+    color: var(--ink);
+  }
+  .wordmark .name {
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 26px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .anniversary {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    padding: 7px 12px;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    background: rgba(255,255,255,0.5);
+  }
+
+  .hairline {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--rule) 20%, var(--rule) 80%, transparent);
+    margin: 36px 56px 0;
+  }
+
+  /* opening heading */
+  .opening {
+    padding: 44px 56px 8px;
+  }
+  .opening h1 {
+    margin: 0;
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 48px;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+  .opening .one {
+    color: var(--lavender);
+  }
+  .opening .small-eyebrow {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-style: normal;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--peach);
+    margin-bottom: 18px;
+  }
+
+  /* body copy */
+  .body {
+    padding: 18px 56px 0;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+  .body p { margin: 0 0 18px; }
+  .body p.greeting {
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 22px;
+    line-height: 1.4;
+    color: var(--ink);
+    margin-bottom: 24px;
+  }
+  .body p.pause {
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 20px;
+    line-height: 1.45;
+    color: var(--ink);
+    margin: 26px 0;
+  }
+  .body em.soft {
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    color: var(--ink);
+    font-size: 1.05em;
+  }
+
+  /* quote block */
+  .quotes {
+    padding: 14px 56px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .quote {
+    position: relative;
+    background: #fdfaf2;
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    padding: 26px 30px 24px 60px;
+    overflow: hidden;
+  }
+  .quote::before {
+    content: "\201C";
+    position: absolute;
+    top: -8px;
+    left: 16px;
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 96px;
+    line-height: 1;
+    color: var(--peach);
+    opacity: 0.75;
+  }
+  .quote::after {
+    content: "";
+    position: absolute;
+    left: 0; top: 16px; bottom: 16px;
+    width: 2px;
+    background: linear-gradient(to bottom, transparent, var(--peach) 20%, var(--lavender) 80%, transparent);
+    opacity: 0.55;
+  }
+  .quote p {
+    margin: 0;
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.5;
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+  .quote .who {
+    margin-top: 14px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-style: normal;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .quote .who::before {
+    content: "— ";
+    color: var(--peach);
+  }
+
+  /* feature blocks */
+  .features {
+    padding: 12px 56px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    margin-top: 32px;
+  }
+  .feature {
+    padding-top: 28px;
+    border-top: 1px solid var(--rule);
+  }
+  .feature .eyebrow {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: var(--lavender);
+    margin-bottom: 6px;
+  }
+  .feature .eyebrow .pip {
+    width: 6px; height: 6px; border-radius: 999px;
+    background: var(--lavender);
+  }
+  .feature h2 {
+    margin: 0 0 6px;
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 34px;
+    line-height: 1.1;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .feature .when {
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 17px;
+    color: var(--ink-soft);
+    margin-bottom: 14px;
+  }
+  .feature p {
+    margin: 0 0 18px;
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--ink-soft);
+  }
+
+  /* dream variant */
+  .feature.dreams .eyebrow { color: var(--peach); }
+  .feature.dreams .eyebrow .pip { background: var(--peach); }
+
+  /* sleep variant */
+  .feature.sleep .eyebrow { color: var(--lavender-soft); }
+
+  /* buttons */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 22px 13px 24px;
+    background: var(--dream);
+    color: #fff;
+    border: none;
+    border-radius: 999px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.18) inset,
+      0 8px 20px -10px rgba(42, 22, 84, 0.55),
+      0 2px 4px rgba(42, 22, 84, 0.15);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  }
+  .btn:hover {
+    transform: translateY(-1px);
+    background: #1e0f3f;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.22) inset,
+      0 14px 28px -12px rgba(42, 22, 84, 0.65),
+      0 2px 6px rgba(42, 22, 84, 0.2);
+  }
+  .btn:active { transform: translateY(0); }
+  .btn .arrow {
+    display: inline-grid; place-items: center;
+    width: 22px; height: 22px;
+    border-radius: 999px;
+    background: rgba(255,255,255,0.14);
+    transition: transform 0.22s ease, background 0.22s ease;
+  }
+  .btn:hover .arrow {
+    background: var(--peach);
+    color: var(--dream);
+    transform: translateX(3px);
+  }
+  .btn .arrow svg { display: block; }
+
+  /* the big closing CTA */
+  .closer {
+    margin: 40px 56px 0;
+    padding: 36px 36px 36px;
+    background:
+      radial-gradient(120% 90% at 80% 10%, rgba(242,177,151,0.22), transparent 60%),
+      radial-gradient(120% 90% at 10% 90%, rgba(107,87,200,0.22), transparent 60%),
+      linear-gradient(168deg, #1a1342 0%, #2a1654 100%);
+    color: #fff;
+    border-radius: 14px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .closer::before {
+    /* faint starfield */
+    content: "";
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,0.7), transparent 60%),
+      radial-gradient(1px 1px at 70% 20%, rgba(255,255,255,0.55), transparent 60%),
+      radial-gradient(1.2px 1.2px at 80% 65%, rgba(255,255,255,0.7), transparent 60%),
+      radial-gradient(1px 1px at 35% 75%, rgba(255,255,255,0.5), transparent 60%),
+      radial-gradient(1px 1px at 55% 50%, rgba(255,255,255,0.55), transparent 60%),
+      radial-gradient(1px 1px at 12% 60%, rgba(255,255,255,0.45), transparent 60%);
+    pointer-events: none;
+  }
+  .closer > * { position: relative; }
+  .closer .lede {
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 30px;
+    line-height: 1.2;
+    margin: 0 0 6px;
+    letter-spacing: -0.01em;
+  }
+  .closer .sub {
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 20px;
+    color: rgba(255,255,255,0.7);
+    margin: 0 0 18px;
+  }
+  .closer .little {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    margin: 0 0 22px;
+    letter-spacing: 0.01em;
+  }
+  .closer .btn {
+    background: #fff;
+    color: var(--dream);
+    box-shadow:
+      0 1px 0 rgba(255,255,255,0.6) inset,
+      0 14px 32px -12px rgba(0,0,0,0.45);
+  }
+  .closer .btn:hover { background: var(--peach); color: var(--dream); }
+  .closer .btn .arrow {
+    background: rgba(42,22,84,0.1);
+    color: var(--dream);
+  }
+  .closer .btn:hover .arrow {
+    background: var(--dream);
+    color: #fff;
+  }
+
+  /* signature */
+  .signature {
+    padding: 36px 56px 8px;
+    color: var(--ink-soft);
+  }
+  .signature .thanks {
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--ink);
+    margin: 0 0 26px;
+    line-height: 1.5;
+  }
+  .signature .sign-off {
+    font-family: 'Newsreader', Georgia, 'Times New Roman', serif;
+    font-style: italic;
+    font-size: 36px;
+    color: var(--ink);
+    line-height: 1;
+    margin: 0 0 8px;
+    letter-spacing: -0.01em;
+  }
+  .signature .role {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--ink-dim);
+  }
+
+  /* footer */
+  .footer {
+    margin-top: 28px;
+    padding: 22px 56px 36px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--ink-dim);
+  }
+  .footer .left { display: flex; align-items: center; gap: 10px; }
+  .footer a {
+    color: var(--ink-dim);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+  }
+  .footer a:hover { border-bottom-color: var(--ink-dim); }
+  .footer .links { display: flex; gap: 18px; }
+
+  /* mini sub-footer outside card */
+  .post {
+    margin-top: 18px;
+    text-align: center;
+    font-size: 11px;
+    color: var(--ink-dim);
+    letter-spacing: 0.04em;
+    line-height: 1.6;
+  }
+
+  /* ── tweakable state (applied via body[data-*]) ─────────────────── */
+  body[data-chrome="off"] .meta { display: none; }
+  body[data-chrome="off"] .viewer { padding-top: 32px; }
+  body[data-chrome="off"] .post { display: none; }
+
+  body[data-icons="off"] .masthead { display: none; }
+  body[data-icons="off"] .hairline { display: none; }
+  body[data-icons="off"] .opening { padding-top: 56px; }
+  body[data-icons="off"] .footer svg { display: none; }
+  body[data-icons="off"] .avatar { display: none; }
+  body[data-icons="off"] .btn .arrow { display: none; }
+  body[data-icons="off"] .btn { gap: 0; padding-right: 26px; }
+  body[data-icons="off"] .feature .eyebrow .pip { display: none; }
+
+  /* paper tones */
+  body[data-paper="white"] { --paper: #f4f1ea; --card: #ffffff; --card-edge: #ece6d6; }
+  body[data-paper="warm"]  { --paper: #efe6d3; --card: #fbf5e6; --card-edge: #e4d8bd; }
+  body[data-paper="dusk"]  { --paper: #d9d3e2; --card: #efeaf5; --card-edge: #d6cce4; }
+
+  /* accent palette */
+  body[data-accent="peach"]    { --lavender: #d97a52; --lavender-soft: #e89a78; --peach: #F2B197; --dream: #5a2a1e; }
+  body[data-accent="forest"]   { --lavender: #4a7a55; --lavender-soft: #6a9c75; --peach: #c7a76b; --dream: #1f3a26; }
+  body[data-accent="midnight"] { --lavender: #5a6ec8; --lavender-soft: #7a8edf; --peach: #c6baff; --dream: #0a0728; }
+
+  /* button style variants */
+  body[data-button="outline"] .btn {
+    background: transparent !important;
+    color: var(--dream) !important;
+    border: 1.5px solid var(--dream);
+    box-shadow: none !important;
+  }
+  body[data-button="outline"] .closer .btn {
+    color: #fff !important;
+    border-color: rgba(255,255,255,0.6);
+  }
+  body[data-button="outline"] .btn .arrow { background: rgba(0,0,0,0.06); color: var(--dream); }
+  body[data-button="outline"] .closer .btn .arrow { background: rgba(255,255,255,0.2); color: #fff; }
+
+  body[data-button="text"] .btn {
+    background: transparent !important;
+    color: var(--dream) !important;
+    padding: 6px 0 !important;
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    border-bottom: 1.5px solid var(--dream);
+  }
+  body[data-button="text"] .closer .btn { color: #fff !important; border-color: rgba(255,255,255,0.7); }
+  body[data-button="text"] .btn .arrow { background: transparent; color: inherit; }
+
+  @media (max-width: 600px) {
+    .viewer { padding: 24px 12px 60px; }
+    .masthead, .opening, .body, .quotes, .features, .signature, .footer { padding-left: 28px; padding-right: 28px; }
+    .closer { margin-left: 28px; margin-right: 28px; padding: 28px 22px; }
+    .hairline { margin-left: 28px; margin-right: 28px; }
+    .opening h1 { font-size: 38px; }
+    .feature h2 { font-size: 28px; }
+    .closer .lede { font-size: 24px; }
+    .quote { padding: 24px 22px 22px 50px; }
+    .quote p { font-size: 17px; }
+    .meta { flex-wrap: wrap; }
+    .meta .subject { text-align: left; width: 100%; }
+  }
+</style>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=Newsreader:ital,opt@0,400;1,400&display=swap">
+</head>
+<body data-chrome="off" data-icons="off" data-paper="white" data-accent="lavender" data-button="outline">
+
+<div class="viewer">
+  <div class="envelope">
+
+    <!-- email client chrome -->
+    <div class="meta">
+      <div class="from">
+        <div class="avatar">G</div>
+        <span>Gustavo · MindFlow</span>
+      </div>
+      <span class="dot"></span>
+      <span>to you</span>
+      <span class="subject">One year in — a few things you should hear</span>
+    </div>
+
+    <!-- the email itself -->
+    <article class="card">
+
+      <!-- masthead -->
+      <header class="masthead">
+        <div class="wordmark">
+          <svg width="32" height="32" viewBox="0 0 40 40" aria-hidden="true">
+            <defs>
+              <radialGradient id="lg-glow" cx="0.5" cy="0.4" r="0.5">
+                <stop offset="0" stop-color="#C6BAFF"></stop>
+                <stop offset="1" stop-color="#6B57C8"></stop>
+              </radialGradient>
+            </defs>
+            <circle cx="20" cy="20" r="18" fill="none" stroke="#1e1735" stroke-width="1.5" opacity="0.5"></circle>
+            <path d="M 20 4 a 16 16 0 1 0 12 26 a 12 12 0 1 1 -12 -26 z" fill="#1e1735"></path>
+            <circle cx="26" cy="14" r="2.5" fill="url(#lg-glow)"></circle>
+          </svg>
+          <span class="name" style=""><br></span>
+        </div>
+        <span class="anniversary" style=""><br></span>
+      </header>
+
+      <div class="hairline"></div>
+
+      <!-- opening -->
+      <section class="opening">
+        <div class="small-eyebrow">A letter from the founder</div>
+        <h1>One year in, <br>and I've been thinking about <span class="one">you</span>.</h1>
+      </section>
+
+      <!-- body intro -->
+      <section class="body">
+        <p class="greeting">Hi friend,</p>
+
+        <p>I'm Gustavo, founder of MindFlow. We just hit our one-year mark, and I've been reaching out to people who joined us early on.</p>
+
+        <p>I know it's been a while since you've opened the app. No worries — <em class="soft">MindFlow isn't built for streaks</em>. It's built for when something comes up: a dream, a thought, a feeling you want to sit with.</p>
+
+        <p class="pause">For our anniversary, we asked the people who've been using MindFlow since the beginning a single question: <em class="soft">if MindFlow disappeared tomorrow, what would you lose?</em></p>
+
+        <p>Their answers stayed with me.</p>
+      </section>
+
+      <!-- quotes -->
+      <section class="quotes">
+        <figure class="quote">
+          <p>I would lose a place that helps me when I'm anxious or when something distresses me, and I wouldn't want to lose that.</p>
+          <figcaption class="who">Elba</figcaption>
+        </figure>
+
+        <figure class="quote">
+          <p>I'd feel a void like, "now who do I tell my dream to?"</p>
+          <figcaption class="who">Natalia</figcaption>
+        </figure>
+
+        <figure class="quote">
+          <p>I would feel a real sense of loss, especially for the dreams. When I open my Dream Library and read through it, it's extraordinary what's there.</p>
+          <figcaption class="who">Verónica</figcaption>
+        </figure>
+      </section>
+
+      <!-- reflection -->
+      <section class="body" style="padding-top: 30px;">
+        <p>None of them described losing a tool. <em class="soft">They described losing a place.</em></p>
+        <p>So we've kept building that place, for the moments that bring you back.</p>
+      </section>
+
+      <!-- features -->
+      <section class="features">
+
+        <div class="feature">
+          <div class="eyebrow" style=""><span class="pip"></span>Mind Reset</div>
+          <h2>For the moments that need a pause.</h2>
+          <p style="">Mind Reset creates personalized meditations and affirmations based on what you've been bringing into MindFlow, your thoughts, your feelings, your dreams. Not a generic recording. Something made for where you actually are.</p>
+          <a class="btn" href="#mindreset" style="">
+            Try Mind Reset
+            <span class="arrow">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 6h7M6 3l3 3-3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+          </a>
+        </div>
+
+        <div class="feature sleep">
+          <div class="eyebrow"><span class="pip"></span>Sleep Mode</div>
+          <h2>For the end of the day.</h2>
+          <p>Theta-wave audio and guided sleep meditations, built on established relaxation practices, to help the day soften and sleep come a little easier.</p>
+          <a class="btn" href="#sleep">
+            Try Sleep Mode
+            <span class="arrow">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 6h7M6 3l3 3-3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </span>
+          </a>
+        </div>
+
+        <div class="feature dreams">
+          <div class="eyebrow"><span class="pip"></span>And, of course — your dreams</div>
+          <h2>Dreams are still the heart of MindFlow.</h2>
+          <p>If you've had one lately, the microphone is right there when you wake up. The "go deeper" questions will be waiting for you when you're calm enough to sit with it.</p>
+        </div>
+
+      </section>
+
+      <!-- closing CTA card -->
+      <section class="closer">
+        <p class="lede">You don't need to catch up.</p>
+        <p class="sub">Start with one thing.</p>
+        <p class="little">A dream. A thought. A feeling. A moment from the week that stayed with you.</p>
+        <a class="btn" href="#open">
+          Open MindFlow
+          <span class="arrow">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 6h7M6 3l3 3-3 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </span>
+        </a>
+      </section>
+
+      <!-- signature -->
+      <section class="signature">
+        <p class="thanks">Thank you for being part of what we're building.</p>
+        <div class="sign-off">Gustavo</div>
+        <div class="role">Gustavo Tolone · Founder &amp; CEO, MindFlow</div>
+      </section>
+
+      <!-- footer -->
+      <footer class="footer">
+        <div class="left">
+          <svg width="14" height="14" viewBox="0 0 40 40" aria-hidden="true">
+            <circle cx="20" cy="20" r="18" fill="none" stroke="#6a6383" stroke-width="2" opacity="0.5"></circle>
+            <path d="M 20 4 a 16 16 0 1 0 12 26 a 12 12 0 1 1 -12 -26 z" fill="#6a6383"></path>
+          </svg>
+          <span>MindFlow · the gentlest place to know yourself</span>
+        </div>
+        <div class="links">
+          <a href="#prefs">Preferences</a>
+          <a href="#unsub">Unsubscribe</a>
+        </div>
+      </footer>
+
+    </article>
+
+    <p class="post">
+      You're receiving this because you joined MindFlow in the first year.<br>
+      MindFlow · Sent with care.
+    </p>
+
+  </div>
+</div>
+
+</body></html>
