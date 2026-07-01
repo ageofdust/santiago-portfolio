@@ -18,7 +18,10 @@
   --n-stamp:  'Special Elite', 'Courier New', monospace;
 }
 
-/* ── page wrapper ── */
+/* Page background is Abyss so body's Paper (#F7F3EA) never bleeds through */
+html, body { background: var(--n-hull); }
+
+/* page wrapper */
 .naut { background: var(--n-hull); color: var(--n-bone); font-family: var(--n-body); }
 
 /* ── header / footer overrides: Abyss chrome ── */
